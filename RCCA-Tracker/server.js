@@ -1,6 +1,6 @@
 // server.js
 
-const Issue = require('./models/Issue');
+const Issue = require('../models/Issue');
 
 // Route to render the 'Create New Issue' page
 app.get('/create', (req, res) => {
