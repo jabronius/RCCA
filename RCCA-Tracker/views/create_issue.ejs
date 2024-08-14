@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Quality Issue</title>
+    <style>
+        body {
+            background-color: lightblue;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        select, input, textarea {
+            margin-bottom: 10px;
+            padding: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Create a New Quality Issue</h1>
+    <form action="/create-issue" method="POST">
+        <!-- Vehicle Model Dropdown -->
+        <div>
+            <label for="vehicle_model">Vehicle Model:</label>
+            <select id="vehicle_model" name="vehicle_model" required>
+                <option value="NQ5a">NQ5a</option>
+                <option value="MQ4a">MQ4a</option>
+                <option value="MV1a">MV1a</option>
+                <option value="ON">ON</option>
+            </select>
+        </div>
+
+        <!-- When (Process) Dropdown -->
+        <div>
+            <label for="process">When (Process):</label>
+            <select id="process" name="process" required>
+                <option value="FTTQ">FTTQ</option>
+                <option value="Supplier">Supplier</option>
+                <option value="Dealer Claim">Dealer Claim</option>
+                <option value="3M">3M</option>
+                <option value="Customer Audit">Customer Audit</option>
+                <option value="GA">GA</option>
+                <option value="Line Call">Line Call</option>
+                <option value="VPC-RTP">VPC-RTP</option>
+            </select>
+        </div>
+
+        <!-- Optional Process Dropdown -->
+        <div id="optionalProcessContainer" style="display:none;">
+            <label for="optional_process">When (Optional):</label>
+            <select id="optional_process" name="optional_process">
+                <option value="OK LINE">OK LINE</option>
+                <option value="TEST ROAD">TEST ROAD</option>
+                <option value="FIL LINE">FIL LINE</option>
+                <option value="ROLL & BRAKE">ROLL & BRAKE</option>
+                <option value="HADS">HADS</option>
+            </select>
+        </div>
+
+        <!-- Function Group Dropdown -->
+        <div>
+            <label for="function_group">Function Group:</label>
+            <select id="function_group" name="function_group" required>
+                <option value="Interior">Interior</option>
+                <option value="Exterior">Exterior</option>
+                <option value="Chassis">Chassis</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Paint">Paint</option>
+                <option value="Weld">Weld</option>
+            </select>
+        </div>
+
+        <!-- What (Defect) Dropdown -->
+        <div id="defectContainer">
+            <label for="defect">What (Defect):</label>
+            <select id="defect" name="defect" required>
+                <!-- Options will be dynamically populated based on Function Group -->
+            </select>
+        </div>
+
+        <!-- Where (Geographical) Textbox -->
+        <div>
+            <label for="geographical">Where (Geographical):</label>
+            <input type="text" id="geographical" name="geographical" required>
+        </div>
+
+        <!-- Where (KaGA) Textbox -->
+        <div>
+            <label for="kaga">Where (KaGA):</label>
+            <input type="text" id="kaga" name="kaga" required>
+        </div>
+
+        <button type="submit">Submit Issue</button>
+    </form>
+
+    <script>
+        // JavaScript to show/hide the optional dropdown based on the 'When (Process)' selection
+        document.getElementById('process').addEventListener('change', function() {
+            const optionalProcessContainer = document.getElementById('optionalProcessContainer');
+            if (this.value === 'FTTQ') {
+                optionalProcessContainer.style.display = 'block';
+            } else {
+                optionalProcessContainer.style.display = 'none';
+            }
+        });
+
+        // JavaScript to dynamically populate the What (Defect) dropdown based on Function Group
+        document.getElementById('function_group').addEventListener('change', function() {
+            const defectContainer = document.getElementById('defect');
+            const selectedGroup = this.value;
+            let options = '';
+
+            if (['Interior', 'Exterior', 'Weld', 'Paint'].includes(selectedGroup)) {
+                options = `
+                    <option value="Mutilation">Mutilation</option>
+                    <option value="Gap">Gap</option>
+                    <option value="Poor Fit">Poor Fit</option>
+                    <option value="Interference">Interference</option>
+                    <option value="Warp">Warp</option>
+                    <option value="Damage">Damage</option>
+                    <option value="Other">Other</option>
+                `;
+            } else if (selectedGroup === 'Electrical') {
+                options = `
+                    <option value="Inoperable">Inoperable</option>
+                    <option value="Intermittent">Intermittent</option>
+                    <option value="Short">Short</option>
+                    <option value="Damaged">Damaged</option>
+                    <option value="Abnormal">Abnormal</option>
+                    <option value="Wrong">Wrong</option>
+                `;
+            }
+
+            defectContainer.innerHTML = options;
+        });
+    </script>
+</body>
+</html>
