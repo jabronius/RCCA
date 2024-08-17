@@ -62,8 +62,13 @@
             <% if (openCars.length > 0) { %>
                 <% openCars.forEach(car => { %>
                     <div class="car-item">
-                        <span>CAR#:</span> <%= car.carNumber %> <br>
-                        <span>Status:</span> <%= car.status %>
+                        <span>CAR#:</span> 
+                        <a href="/create/<%= car._id %>">
+                            <%= car.carNumber %>
+                        </a> | 
+                        <span>Status:</span> <%= car.status %> | 
+                        <span>Champion:</span> <%= car.d1.root_cause_champion %> | 
+                        <span>Defect:</span> <%= car.d2 && car.d2.defect ? car.d2.defect : 'N/A' %>
                     </div>
                 <% }) %>
             <% } else { %>

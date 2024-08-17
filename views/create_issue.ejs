@@ -55,7 +55,7 @@
             padding: 5px;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            width: 100%;
+            width: 50%; /* Reduced width to half */
         }
         button[type="submit"] {
             padding: 10px 15px;
@@ -68,6 +68,15 @@
         }
         button[type="submit"]:hover {
             background-color: #0056b3;
+        }
+        .universal-header {
+            background-color: #eee;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 5px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -83,310 +92,292 @@
         <button onclick="showSection('d8')">D8: Read Across & Lessons Learned</button>
     </div>
     <div class="content">
-        <!-- D1 Section -->
+        <!-- Universal Header -->
+ <div class="universal-header">
+    CAR#: <%= carNumber ? carNumber : 'Not yet created' %> | Issue Creator: <%= issueCreatorName %>
+</div>
+
+<!-- Add this link to go back to the dashboard -->
+<div style="text-align: center; font-size: 12px; margin-bottom: 10px;">
+    <a href="/" style="text-decoration: none; color: #007BFF;">Back to Dashboard</a>
+</div>
+
+
+
 <!-- D1 Section: Formation of a Problem-Solving Team -->
 <div id="d1" class="section">
     <h2>D1: Formation of a Problem-Solving Team</h2>
-    <form action="/add-team-members" method="POST">
+    <form action="/submit-d1" method="POST">
         <!-- Team Member Inputs -->
         <div>
             <label for="root_cause_champion">Root Cause Champion Role:</label>
-            <input type="email" id="root_cause_champion" name="team_members[root_cause_champion]" placeholder="Enter email address" required>
-        </div>
-
-        <div>
-            <label for="vehicle_leader">Vehicle Leader Role:</label>
-            <input type="email" id="vehicle_leader" name="team_members[vehicle_leader]" placeholder="Enter email address" required>
+            <input type="text" id="root_cause_champion" name="team_members[root_cause_champion]" placeholder="Enter first and last name" required>
         </div>
 
         <div>
             <label for="hod_responsible">HOD Responsible Role:</label>
-            <input type="email" id="hod_responsible" name="team_members[hod_responsible]" placeholder="Enter email address" required>
+            <input type="text" id="hod_responsible" name="team_members[hod_responsible]" placeholder="Enter first and last name" required>
         </div>
 
         <div>
             <label for="support_role">Support Role:</label>
-            <input type="email" id="support_role" name="team_members[support_role]" placeholder="Enter email address" required>
+            <input type="text" id="support_role" name="team_members[support_role]" placeholder="Enter first and last name" required>
         </div>
 
         <div>
             <label for="issue_creator">Issue Creator Role:</label>
-            <input type="email" id="issue_creator" name="team_members[issue_creator]" placeholder="Enter email address" required>
+            <input type="text" id="issue_creator" name="team_members[issue_creator]" placeholder="Enter first and last name" required>
         </div>
 
         <div>
             <label for="car_system_tracker">CAR System Tracker Role:</label>
-            <input type="email" id="car_system_tracker" name="team_members[car_system_tracker]" placeholder="Enter email address" required>
+            <input type="text" id="car_system_tracker" name="team_members[car_system_tracker]" placeholder="Enter first and last name" required>
         </div>
-
-        <!-- Option to add more team members -->
-        <div id="additional_members"></div>
-        <button type="button" onclick="addMember()">Add Another Member (Optional)</button>
 
         <!-- Submit Button -->
         <button type="submit">Submit Team Members</button>
     </form>
 </div>
 
-<script>
-    let memberCount = 6;
-
-    function addMember() {
-        if (memberCount < 10) {
-            memberCount++;
-            const div = document.createElement('div');
-            div.innerHTML = `<label for="member_${memberCount}">Additional Team Member ${memberCount}:</label>
-                             <input type="email" id="member_${memberCount}" name="team_members[additional_member_${memberCount}]" placeholder="Enter email address">`;
-            document.getElementById('additional_members').appendChild(div);
-        } else {
-            alert('You can only add up to 10 members.');
-        }
-    }
-</script>
-
-
-        <!-- D2: Problem Description (previously Define the Problem) -->
-        <div id="d2" class="section active">
-            <h2>D2: Problem description</h2>
-            <form action="/create-issue" method="POST" enctype="multipart/form-data">
-                <!-- Vehicle Model -->
-                <div>
-                    <label for="vehicle_model">Vehicle Model:</label>
-                    <select id="vehicle_model" name="vehicle_model" required>
-                        <option value="NQ5a">NQ5a</option>
-                        <option value="MQ4a">MQ4a</option>
-                        <option value="MV1a">MV1a</option>
-                        <option value="ON">ON</option>
-                    </select>
-                </div>
-
-                <!-- When (Process) -->
-                <div>
-                    <label for="process">When (Process):</label>
-                    <select id="process" name="process" required>
-                        <option value="FTTQ">FTTQ</option>
-                        <option value="Supplier">Supplier</option>
-                        <option value="Dealer Claim">Dealer Claim</option>
-                        <option value="3M">3M</option>
-                        <option value="Customer Audit">Customer Audit</option>
-                        <option value="GA">GA</option>
-                        <option value="Line Call">Line Call</option>
-                        <option value="VPC-RTP">VPC-RTP</option>
-                    </select>
-                </div>
-
-                <!-- Optional Process Dropdown -->
-                <div id="optionalProcessContainer" style="display:none;">
-                    <label for="optional_process">When (Optional):</label>
-                    <select id="optional_process" name="optional_process">
-                        <option value="OK LINE">OK LINE</option>
-                        <option value="TEST ROAD">TEST ROAD</option>
-                        <option value="FIL LINE">FIL LINE</option>
-                        <option value="ROLL & BRAKE">ROLL & BRAKE</option>
-                        <option value="HADS">HADS</option>
-                    </select>
-                </div>
-
-                <!-- Function Group -->
-                <div>
-                    <label for="function_group">Function Group:</label>
-                    <select id="function_group" name="function_group" required>
-                        <option value="Interior">Interior</option>
-                        <option value="Exterior">Exterior</option>
-                        <option value="Chassis">Chassis</option>
-                        <option value="Electrical">Electrical</option>
-                        <option value="Paint">Paint</option>
-                        <option value="Weld">Weld</option>
-                    </select>
-                </div>
-
-                <!-- Part Name -->
-                <div>
-                    <label for="part_name">Part Name:</label>
-                    <input type="text" id="part_name" name="part_name" required>
-                </div>
-
-                <!-- Part Number -->
-                <div>
-                    <label for="part_number">Part Number:</label>
-                    <input type="text" id="part_number" name="part_number" required>
-                </div>
-
-                <!-- Define the Problem -->
-                <div>
-                    <label for="defect">Define the Problem:</label>
-                    <input type="text" id="defect" name="defect" required>
-                </div>
-
-                <!-- What (Green Y/Response/Output) -->
-                <div>
-                    <label for="green_y">What (Green Y/Response/Output):</label>
-                    <input type="text" id="green_y" name="green_y" required>
-                    <p style="font-size: 12px; color: gray;">
-                        The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
-                    </p>
-                </div>
-
-                <!-- When (Problem First Seen) -->
-                <div>
-                    <label for="problem_seen_date">When (Problem First Seen):</label>
-                    <input type="date" id="problem_seen_date" name="problem_seen_date" required>
-                </div>
-
-                <!-- When (In Product Life Cycle) -->
-                <div>
-                    <label for="product_life_cycle">When (In Product Life Cycle):</label>
-                    <select id="product_life_cycle" name="product_life_cycle" required>
-                        <option value="DV">DV</option>
-                        <option value="PV">PV</option>
-                        <option value="Prototype">Prototype</option>
-                        <option value="T1">T1</option>
-                        <option value="T2">T2</option>
-                        <option value="Production">Production</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <!-- Upload Photos -->
-                <div>
-                    <label for="photos">Upload Photos:</label>
-                    <input type="file" id="photos" name="photos" accept="image/*" multiple onchange="previewPhotos()">
-                    <div id="photo-preview" style="margin-top: 10px;"></div>
-                </div>
-
-                <!-- Where (In Vehicle) -->
-                <div>
-                    <label for="in_vehicle">Where (In Vehicle):</label>
-                    <select id="in_vehicle" name="in_vehicle" required>
-                        <option value="Front Bumper">Front Bumper</option>
-                        <option value="Rear Bumper">Rear Bumper</option>
-                        <option value="Crashpad">Crashpad</option>
-                        <option value="Seats">Seats</option>
-                        <option value="Engine Bay">Engine Bay</option>
-                        <option value="Transmission">Transmission</option>
-                        <option value="Tailgate">Tailgate</option>
-                        <option value="Wheels">Wheels</option>
-                        <option value="Roof">Roof</option>
-                        <option value="Underbody">Underbody</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <!-- Where (Side of Vehicle) -->
-                <div>
-                    <label for="side_of_vehicle">Where (Side of Vehicle):</label>
-                    <select id="side_of_vehicle" name="side_of_vehicle" required>
-                        <option value="Left Hand">Left Hand</option>
-                        <option value="Right Hand">Right Hand</option>
-                        <option value="Fore">Fore</option>
-                        <option value="Aft">Aft</option>
-                        <option value="+H">+H</option>
-                        <option value="-H">-H</option>
-                    </select>
-                </div>
-
-                <!-- Where (Additional) -->
-                <div>
-                    <label for="additional_where">Where (Additional):</label>
-                    <input type="text" id="additional_where" name="additional_where">
-                </div>
-
-                <button type="submit">Submit Issue</button>
-            </form>
-        </div>
-
-        <!-- D3 Section -->
-<!-- D3 Section: Containment Action -->
-<!-- D3 Section: Containment Action -->
-<div id="d3" class="section">
-    <h2>D3: Containment Action</h2>
-    <form action="/create-issue" method="POST">
-        <!-- 1. Recall Parts that Recently Shipped? -->
+<div id="d2" class="section">
+    <h2>D2: Problem description</h2>
+    <form action="/submit-d2/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Vehicle Model -->
         <div>
-            <label for="recall_parts_notes">Recall Parts that Recently Shipped:</label>
-            <input type="text" id="recall_parts_notes" name="containment[recall_parts_notes]" placeholder="Notes or more info">
+            <label for="vehicle_model">Vehicle Model:</label>
+            <select id="vehicle_model" name="vehicle_model" required>
+                <option value="NQ5a">NQ5a</option>
+                <option value="MQ4a">MQ4a</option>
+                <option value="MV1a">MV1a</option>
+                <option value="ON">ON</option>
+            </select>
         </div>
 
-        <!-- 2. Stop parts in shipping department -->
+        <!-- When (Process) -->
         <div>
-            <label for="shipping_department_notes">Stop Parts in Shipping Department:</label>
-            <input type="text" id="shipping_department_notes" name="containment[shipping_department_notes]" placeholder="Alert PC Department, Alert GLovis, more details">
+            <label for="process">When (Process):</label>
+            <select id="process" name="process" required>
+                <option value="FTTQ">FTTQ</option>
+                <option value="Supplier">Supplier</option>
+                <option value="Dealer Claim">Dealer Claim</option>
+                <option value="3M">3M</option>
+                <option value="Customer Audit">Customer Audit</option>
+                <option value="GA">GA</option>
+                <option value="Line Call">Line Call</option>
+                <option value="VPC-RTP">VPC-RTP</option>
+            </select>
         </div>
 
-        <!-- 3. Isolate parts in stock -->
+        <!-- Optional Process Dropdown -->
+        <div id="optionalProcessContainer" style="display:none;">
+            <label for="optional_process">When (Optional):</label>
+            <select id="optional_process" name="optional_process">
+                <option value="OK LINE">OK LINE</option>
+                <option value="TEST ROAD">TEST ROAD</option>
+                <option value="FIL LINE">FIL LINE</option>
+                <option value="ROLL & BRAKE">ROLL & BRAKE</option>
+                <option value="HADS">HADS</option>
+            </select>
+        </div>
+
+        <!-- Function Group -->
         <div>
-            <label for="isolate_parts">Isolate Parts in Stock:</label>
-            <input type="text" id="isolate_parts" name="containment[isolate_parts]" placeholder="Add details">
+            <label for="function_group">Function Group:</label>
+            <select id="function_group" name="function_group" required>
+                <option value="Interior">Interior</option>
+                <option value="Exterior">Exterior</option>
+                <option value="Chassis">Chassis</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Paint">Paint</option>
+                <option value="Weld">Weld</option>
+            </select>
         </div>
 
-        <!-- 4. Issue Alerted to Final Inspection -->
+        <!-- Part Name -->
         <div>
-            <label for="final_inspection_notes">Issue Alerted to Final Inspection:</label>
-            <input type="text" id="final_inspection_notes" name="containment[final_inspection_notes]" placeholder="More info">
+            <label for="part_name">Part Name:</label>
+            <input type="text" id="part_name" name="part_name" required>
         </div>
 
-        <!-- 5. Quarantine between root cause area and final inspection -->
+        <!-- Part Number -->
         <div>
-            <label for="quarantine_notes">Quarantine Between Root Cause Area and Final Inspection:</label>
-            <input type="text" id="quarantine_notes" name="containment[quarantine_notes]" placeholder="More detail">
+            <label for="part_number">Part Number:</label>
+            <input type="text" id="part_number" name="part_number" required>
         </div>
 
-        <!-- 6. Sort - Part sort? -->
+        <!-- Define the Problem -->
         <div>
-            <label for="sort_notes">Sort - Part Sort / Yard Sweep:</label>
-            <input type="text" id="sort_notes" name="containment[sort_notes]" placeholder="More detail">
+            <label for="defect">Define the Problem:</label>
+            <input type="text" id="defect" name="defect" required>
         </div>
 
-        <!-- Additional Fields: Number of Parts Sorted and Vehicles Sorted -->
+        <!-- What (Green Y/Response/Output) -->
         <div>
-            <h3>Number of Parts Sorted</h3>
-            <label for="parts_sorted_qty">Qty:</label>
-            <input type="number" id="parts_sorted_qty" name="containment[parts_sorted_qty]">
-
-            <label for="parts_date_of_check">Date of Check:</label>
-            <input type="date" id="parts_date_of_check" name="containment[parts_date_of_check]">
-
-            <label for="ok_parts_qty">Number of OK Parts (Qty):</label>
-            <input type="number" id="ok_parts_qty" name="containment[ok_parts_qty]">
-
-            <label for="ng_parts_qty">Number of NG Parts (Qty):</label>
-            <input type="number" id="ng_parts_qty" name="containment[ng_parts_qty]">
-
-            <label for="parts_note">Note:</label>
-            <textarea id="parts_note" name="containment[parts_note]" rows="2" placeholder="Additional notes"></textarea>
+            <label for="green_y">What (Green Y/Response/Output):</label>
+            <input type="text" id="green_y" name="green_y" required>
+            <p style="font-size: 12px; color: gray;">
+                The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
+            </p>
         </div>
 
+        <!-- When (Problem First Seen) -->
         <div>
-            <h3>Number of Vehicles Sorted</h3>
-            <label for="vehicles_sorted_qty">Qty:</label>
-            <input type="number" id="vehicles_sorted_qty" name="containment[vehicles_sorted_qty]">
-
-            <label for="date_begin_sort">Date of Beginning of Sort:</label>
-            <input type="date" id="date_begin_sort" name="containment[date_begin_sort]">
-
-            <label for="date_end_sort">Date of Ending of Sort:</label>
-            <input type="date" id="date_end_sort" name="containment[date_end_sort]">
-
-            <label for="ok_body_numbers">Number of OK Body Numbers:</label>
-            <input type="number" id="ok_body_numbers" name="containment[ok_body_numbers]">
-
-            <label for="ng_body_numbers">Number of NG Body Numbers:</label>
-            <input type="number" id="ng_body_numbers" name="containment[ng_body_numbers]">
-
-            <label for="vehicles_note">Note:</label>
-            <textarea id="vehicles_note" name="containment[vehicles_note]" rows="2" placeholder="Additional notes"></textarea>
+            <label for="problem_seen_date">When (Problem First Seen):</label>
+            <input type="date" id="problem_seen_date" name="problem_seen_date" required>
         </div>
 
-        <!-- RESULTS SECTION -->
+        <!-- When (In Product Life Cycle) -->
         <div>
-            <label for="results">Results Section:</label>
-            <textarea id="results" name="containment[results]" rows="4" placeholder="Specific info"></textarea>
+            <label for="product_life_cycle">When (In Product Life Cycle):</label>
+            <select id="product_life_cycle" name="product_life_cycle" required>
+                <option value="DV">DV</option>
+                <option value="PV">PV</option>
+                <option value="Prototype">Prototype</option>
+                <option value="T1">T1</option>
+                <option value="T2">T2</option>
+                <option value="Production">Production</option>
+                <option value="Other">Other</option>
+            </select>
         </div>
 
-        <button type="submit">Submit Containment Action</button>
+        <!-- Upload Photos -->
+        <div>
+            <label for="photos">Upload Photos:</label>
+            <input type="file" id="photos" name="photos" accept="image/*" multiple onchange="previewPhotos()">
+            <div id="photo-preview" style="margin-top: 10px;"></div>
+        </div>
+
+        <!-- Where (In Vehicle) -->
+        <div>
+            <label for="in_vehicle">Where (In Vehicle):</label>
+            <select id="in_vehicle" name="in_vehicle" required>
+                <option value="Front Bumper">Front Bumper</option>
+                <option value="Rear Bumper">Rear Bumper</option>
+                <option value="Crashpad">Crashpad</option>
+                <option value="Seats">Seats</option>
+                <option value="Engine Bay">Engine Bay</option>
+                <option value="Transmission">Transmission</option>
+                <option value="Tailgate">Tailgate</option>
+                <option value="Wheels">Wheels</option>
+                <option value="Roof">Roof</option>
+                <option value="Underbody">Underbody</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <!-- Where (Side of Vehicle) -->
+        <div>
+            <label for="side_of_vehicle">Where (Side of Vehicle):</label>
+            <select id="side_of_vehicle" name="side_of_vehicle" required>
+                <option value="Left Hand">Left Hand</option>
+                <option value="Right Hand">Right Hand</option>
+                <option value="Fore">Fore</option>
+                <option value="Aft">Aft</option>
+                <option value="+H">+H</option>
+                <option value="-H">-H</option>
+            </select>
+        </div>
+
+        <!-- Where (Additional) -->
+        <div>
+            <label for="additional_where">Where (Additional):</label>
+            <input type="text" id="additional_where" name="additional_where">
+        </div>
+
+        <button type="submit">Submit Problem Description</button>
     </form>
 </div>
 
+
+        <!-- D3 Section: Containment Action -->
+        <div id="d3" class="section">
+            <h2>D3: Containment Action</h2>
+            <form action="/create-issue" method="POST">
+                <!-- 1. Recall Parts that Recently Shipped? -->
+                <div>
+                    <label for="recall_parts_notes">Recall Parts that Recently Shipped:</label>
+                    <input type="text" id="recall_parts_notes" name="containment[recall_parts_notes]" placeholder="Notes or more info">
+                </div>
+
+                <!-- 2. Stop parts in shipping department -->
+                <div>
+                    <label for="shipping_department_notes">Stop Parts in Shipping Department:</label>
+                    <input type="text" id="shipping_department_notes" name="containment[shipping_department_notes]" placeholder="Alert PC Department, Alert GLovis, more details">
+                </div>
+
+                <!-- 3. Isolate parts in stock -->
+                <div>
+                    <label for="isolate_parts">Isolate Parts in Stock:</label>
+                    <input type="text" id="isolate_parts" name="containment[isolate_parts]" placeholder="Add details">
+                </div>
+
+                <!-- 4. Issue Alerted to Final Inspection -->
+                <div>
+                    <label for="final_inspection_notes">Issue Alerted to Final Inspection:</label>
+                    <input type="text" id="final_inspection_notes" name="containment[final_inspection_notes]" placeholder="More info">
+                </div>
+
+                <!-- 5. Quarantine between root cause area and final inspection -->
+                <div>
+                    <label for="quarantine_notes">Quarantine Between Root Cause Area and Final Inspection:</label>
+                    <input type="text" id="quarantine_notes" name="containment[quarantine_notes]" placeholder="More detail">
+                </div>
+
+                <!-- 6. Sort - Part sort? -->
+                <div>
+                    <label for="sort_notes">Sort - Part Sort / Yard Sweep:</label>
+                    <input type="text" id="sort_notes" name="containment[sort_notes]" placeholder="More detail">
+                </div>
+
+                <!-- Additional Fields: Number of Parts Sorted and Vehicles Sorted -->
+                <div>
+                    <h3>Number of Parts Sorted</h3>
+                    <label for="parts_sorted_qty">Qty:</label>
+                    <input type="number" id="parts_sorted_qty" name="containment[parts_sorted_qty]">
+
+                    <label for="parts_date_of_check">Date of Check:</label>
+                    <input type="date" id="parts_date_of_check" name="containment[parts_date_of_check]">
+
+                    <label for="ok_parts_qty">Number of OK Parts (Qty):</label>
+                    <input type="number" id="ok_parts_qty" name="containment[ok_parts_qty]">
+
+                    <label for="ng_parts_qty">Number of NG Parts (Qty):</label>
+                    <input type="number" id="ng_parts_qty" name="containment[ng_parts_qty]">
+
+                    <label for="parts_note">Note:</label>
+                    <textarea id="parts_note" name="containment[parts_note]" rows="2" placeholder="Additional notes"></textarea>
+                </div>
+
+                <div>
+                    <h3>Number of Vehicles Sorted</h3>
+                    <label for="vehicles_sorted_qty">Qty:</label>
+                    <input type="number" id="vehicles_sorted_qty" name="containment[vehicles_sorted_qty]">
+
+                    <label for="date_begin_sort">Date of Beginning of Sort:</label>
+                    <input type="date" id="date_begin_sort" name="containment[date_begin_sort]">
+
+                    <label for="date_end_sort">Date of Ending of Sort:</label>
+                    <input type="date" id="date_end_sort" name="containment[date_end_sort]">
+
+                    <label for="ok_body_numbers">Number of OK Body Numbers:</label>
+                    <input type="number" id="ok_body_numbers" name="containment[ok_body_numbers]">
+
+                    <label for="ng_body_numbers">Number of NG Body Numbers:</label>
+                    <input type="number" id="ng_body_numbers" name="containment[ng_body_numbers]">
+
+                    <label for="vehicles_note">Note:</label>
+                    <textarea id="vehicles_note" name="containment[vehicles_note]" rows="2" placeholder="Additional notes"></textarea>
+                </div>
+
+                <!-- RESULTS SECTION -->
+                <div>
+                    <label for="results">Results Section:</label>
+                    <textarea id="results" name="containment[results]" rows="4" placeholder="Specific info"></textarea>
+                </div>
+
+                <button type="submit">Submit Containment Action</button>
+            </form>
+        </div>
 
         <!-- D4 Section -->
         <div id="d4" class="section">
