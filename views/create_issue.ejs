@@ -84,12 +84,66 @@
     </div>
     <div class="content">
         <!-- D1 Section -->
-        <div id="d1" class="section">
-            <h2>D1: Formation of a problem-solving team</h2>
-            <form action="/create-issue" method="POST">
-                <!-- Add form fields related to D1 here -->
-            </form>
+<!-- D1 Section: Formation of a Problem-Solving Team -->
+<div id="d1" class="section">
+    <h2>D1: Formation of a Problem-Solving Team</h2>
+    <form action="/add-team-members" method="POST">
+        <!-- Team Member Inputs -->
+        <div>
+            <label for="root_cause_champion">Root Cause Champion Role:</label>
+            <input type="email" id="root_cause_champion" name="team_members[root_cause_champion]" placeholder="Enter email address" required>
         </div>
+
+        <div>
+            <label for="vehicle_leader">Vehicle Leader Role:</label>
+            <input type="email" id="vehicle_leader" name="team_members[vehicle_leader]" placeholder="Enter email address" required>
+        </div>
+
+        <div>
+            <label for="hod_responsible">HOD Responsible Role:</label>
+            <input type="email" id="hod_responsible" name="team_members[hod_responsible]" placeholder="Enter email address" required>
+        </div>
+
+        <div>
+            <label for="support_role">Support Role:</label>
+            <input type="email" id="support_role" name="team_members[support_role]" placeholder="Enter email address" required>
+        </div>
+
+        <div>
+            <label for="issue_creator">Issue Creator Role:</label>
+            <input type="email" id="issue_creator" name="team_members[issue_creator]" placeholder="Enter email address" required>
+        </div>
+
+        <div>
+            <label for="car_system_tracker">CAR System Tracker Role:</label>
+            <input type="email" id="car_system_tracker" name="team_members[car_system_tracker]" placeholder="Enter email address" required>
+        </div>
+
+        <!-- Option to add more team members -->
+        <div id="additional_members"></div>
+        <button type="button" onclick="addMember()">Add Another Member (Optional)</button>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Team Members</button>
+    </form>
+</div>
+
+<script>
+    let memberCount = 6;
+
+    function addMember() {
+        if (memberCount < 10) {
+            memberCount++;
+            const div = document.createElement('div');
+            div.innerHTML = `<label for="member_${memberCount}">Additional Team Member ${memberCount}:</label>
+                             <input type="email" id="member_${memberCount}" name="team_members[additional_member_${memberCount}]" placeholder="Enter email address">`;
+            document.getElementById('additional_members').appendChild(div);
+        } else {
+            alert('You can only add up to 10 members.');
+        }
+    }
+</script>
+
 
         <!-- D2: Problem Description (previously Define the Problem) -->
         <div id="d2" class="section active">
@@ -242,12 +296,97 @@
         </div>
 
         <!-- D3 Section -->
-        <div id="d3" class="section">
-            <h2>D3: Containment action</h2>
-            <form action="/create-issue" method="POST">
-                <!-- Add form fields related to D3 here -->
-            </form>
+<!-- D3 Section: Containment Action -->
+<!-- D3 Section: Containment Action -->
+<div id="d3" class="section">
+    <h2>D3: Containment Action</h2>
+    <form action="/create-issue" method="POST">
+        <!-- 1. Recall Parts that Recently Shipped? -->
+        <div>
+            <label for="recall_parts_notes">Recall Parts that Recently Shipped:</label>
+            <input type="text" id="recall_parts_notes" name="containment[recall_parts_notes]" placeholder="Notes or more info">
         </div>
+
+        <!-- 2. Stop parts in shipping department -->
+        <div>
+            <label for="shipping_department_notes">Stop Parts in Shipping Department:</label>
+            <input type="text" id="shipping_department_notes" name="containment[shipping_department_notes]" placeholder="Alert PC Department, Alert GLovis, more details">
+        </div>
+
+        <!-- 3. Isolate parts in stock -->
+        <div>
+            <label for="isolate_parts">Isolate Parts in Stock:</label>
+            <input type="text" id="isolate_parts" name="containment[isolate_parts]" placeholder="Add details">
+        </div>
+
+        <!-- 4. Issue Alerted to Final Inspection -->
+        <div>
+            <label for="final_inspection_notes">Issue Alerted to Final Inspection:</label>
+            <input type="text" id="final_inspection_notes" name="containment[final_inspection_notes]" placeholder="More info">
+        </div>
+
+        <!-- 5. Quarantine between root cause area and final inspection -->
+        <div>
+            <label for="quarantine_notes">Quarantine Between Root Cause Area and Final Inspection:</label>
+            <input type="text" id="quarantine_notes" name="containment[quarantine_notes]" placeholder="More detail">
+        </div>
+
+        <!-- 6. Sort - Part sort? -->
+        <div>
+            <label for="sort_notes">Sort - Part Sort / Yard Sweep:</label>
+            <input type="text" id="sort_notes" name="containment[sort_notes]" placeholder="More detail">
+        </div>
+
+        <!-- Additional Fields: Number of Parts Sorted and Vehicles Sorted -->
+        <div>
+            <h3>Number of Parts Sorted</h3>
+            <label for="parts_sorted_qty">Qty:</label>
+            <input type="number" id="parts_sorted_qty" name="containment[parts_sorted_qty]">
+
+            <label for="parts_date_of_check">Date of Check:</label>
+            <input type="date" id="parts_date_of_check" name="containment[parts_date_of_check]">
+
+            <label for="ok_parts_qty">Number of OK Parts (Qty):</label>
+            <input type="number" id="ok_parts_qty" name="containment[ok_parts_qty]">
+
+            <label for="ng_parts_qty">Number of NG Parts (Qty):</label>
+            <input type="number" id="ng_parts_qty" name="containment[ng_parts_qty]">
+
+            <label for="parts_note">Note:</label>
+            <textarea id="parts_note" name="containment[parts_note]" rows="2" placeholder="Additional notes"></textarea>
+        </div>
+
+        <div>
+            <h3>Number of Vehicles Sorted</h3>
+            <label for="vehicles_sorted_qty">Qty:</label>
+            <input type="number" id="vehicles_sorted_qty" name="containment[vehicles_sorted_qty]">
+
+            <label for="date_begin_sort">Date of Beginning of Sort:</label>
+            <input type="date" id="date_begin_sort" name="containment[date_begin_sort]">
+
+            <label for="date_end_sort">Date of Ending of Sort:</label>
+            <input type="date" id="date_end_sort" name="containment[date_end_sort]">
+
+            <label for="ok_body_numbers">Number of OK Body Numbers:</label>
+            <input type="number" id="ok_body_numbers" name="containment[ok_body_numbers]">
+
+            <label for="ng_body_numbers">Number of NG Body Numbers:</label>
+            <input type="number" id="ng_body_numbers" name="containment[ng_body_numbers]">
+
+            <label for="vehicles_note">Note:</label>
+            <textarea id="vehicles_note" name="containment[vehicles_note]" rows="2" placeholder="Additional notes"></textarea>
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <div>
+            <label for="results">Results Section:</label>
+            <textarea id="results" name="containment[results]" rows="4" placeholder="Specific info"></textarea>
+        </div>
+
+        <button type="submit">Submit Containment Action</button>
+    </form>
+</div>
+
 
         <!-- D4 Section -->
         <div id="d4" class="section">

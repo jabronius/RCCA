@@ -5,13 +5,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RCCA Dashboard</title>
+    <style>
+        body {
+            background-color: lightblue;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .car-list {
+            margin-top: 20px;
+        }
+        .car-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .car-item:last-child {
+            border-bottom: none;
+        }
+        .car-item span {
+            font-weight: bold;
+        }
+        .create-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to RCCA System</h1>
-    <ul>
-        <li><a href="/create">Create New Issue</a></li>
-        <li><a href="/pareto-list">List Pareto of Top Quality Issues by Area</a></li>
-        <li><a href="/pareto-graph">Graph Pareto of Top Quality Issues by Area</a></li>
-    </ul>
+    <div class="container">
+        <a href="/create" class="create-link">Create Issue - New CAR Entry</a>
+        <h1>RCCA Dashboard</h1>
+        <div class="car-list">
+            <% if (openCars.length > 0) { %>
+                <% openCars.forEach(car => { %>
+                    <div class="car-item">
+                        <span>CAR#:</span> <%= car.carNumber %> <br>
+                        <span>Status:</span> <%= car.status %>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No open CARs at the moment.</p>
+            <% } %>
+        </div>
+    </div>
 </body>
 </html>
