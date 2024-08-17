@@ -1,37 +1,39 @@
-const app = require('./express');
-const Issue = require('./models/Issue');
+const express = require('express');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const passport = require('passport');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-// Route to render the 'Create New Issue' page
-app.get('/create', (req, res) => {
-    res.render('create_issue');
+constPORT = process.env.PORT || 3000;
+
+const app = express(); // This line must be before any use of the `app` variable// Middleware setup
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+
+// Express session setup
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true,
+}));
+
+// Passport middleware setup
+app.use(passport.initialize());
+app.use(passport.session());
+
+// MongoDB connection setup
+mongoose.connect('mongodb://localhost:27017/rcca', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() =>console.log('MongoDB connected'))
+    .catch(err =>console.log(err));
+
+// Basic route setup
+app.get('/', (req, res) => {
+    res.render('dashboard'); // Render the dashboard view (ensure you have a dashboard.ejs file)
 });
 
-// Route to handle form submission from the 'Create New Issue' page
-app.post('/create-issue', (req, res) => {
-    const { title, description, area, severity } = req.body;
+// Starting the server
+app.listen(PORT, () =>console.log(`Server running on port ${PORT}`));
 
-    const newIssue = new Issue({
-        title,
-        description,
-        area,
-        severity,
-        status: 'Open',
-        createdAt: new Date(),
-    });
-
-    newIssue.save()
-        .then(() => {
-            res.redirect('/'); // Redirect to the dashboard after successful submission
-        })
-        .catch(err => {
-            console.error(err);
-            res.redirect('/create'); // Redirect back to the form on error
-        });
-});
-
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 // http://localhost:3000
