@@ -1,95 +1,328 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Create New Quality Issue</title><style>body {
-    background-color: lightblue;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    display: flex;
-}
-.sidebar {
-    width: 200px;
-    background-color: #333;
-    color: white;
-    padding: 15px;
-    overflow-y: auto;
-    height: 100vh;
-    position: fixed;
-}
-.sidebarbutton {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 5px0;
-    background-color: #444;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: left;
-}
-.sidebarbutton:hover {
-    background-color: #555;
-}
-.content {
-    margin-left: 220px;
-    padding: 20px;
-    width: 100%;
-}
-.section {
-    display: none;
-}
-.section.active {
-    display: block;
-}
-label {
-    display: block;
-    margin-top: 10px;
-}
-select, input, textarea {
-    margin-bottom: 10px;
-    padding: 5px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    width: 100%;
-}
-button[type="submit"] {
-    padding: 10px15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-}
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-</style></head><body><div class="sidebar"><button onclick="showSection('d1')">D1: Formation of a problem-solving team</button><button onclick="showSection('d2')">D2: Problem description</button><button onclick="showSection('d3')">D3: Containment action</button><button onclick="showSection('d4')">D4: Root cause analysis</button><button onclick="showSection('d5')">D5: Potential corrective action</button><button onclick="showSection('d6')">D6: Implement corrective action</button><button onclick="showSection('d7')">D7: Take preventive action</button><button onclick="showSection('d8')">D8: Read Across & Lessons Learned</button></div><div class="content"><!-- D1 Section --><div id="d1" class="section"><h2>D1: Formation of a problem-solving team</h2><form action="/create-issue" method="POST"><!-- Add form fields related to D1 here --></form></div><!-- D2: Problem Description (previously Define the Problem) --><div id="d2" class="section active"><h2>D2: Problem description</h2><form action="/create-issue" method="POST" enctype="multipart/form-data"><!-- Vehicle Model --><div><label for="vehicle_model">Vehicle Model:</label><select id="vehicle_model" name="vehicle_model" required><option value="NQ5a">NQ5a</option><option value="MQ4a">MQ4a</option><option value="MV1a">MV1a</option><option value="ON">ON</option></select></div><!-- When (Process) --><div><label for="process">When (Process):</label><select id="process" name="process" required><option value="FTTQ">FTTQ</option><option value="Supplier">Supplier</option><option value="Dealer Claim">Dealer Claim</option><option value="3M">3M</option><option value="Customer Audit">Customer Audit</option><option value="GA">GA</option><option value="Line Call">Line Call</option><option value="VPC-RTP">VPC-RTP</option></select></div><!-- Optional Process Dropdown --><div id="optionalProcessContainer" style="display:none;"><label for="optional_process">When (Optional):</label><select id="optional_process" name="optional_process"><option value="OK LINE">OK LINE</option><option value="TEST ROAD">TEST ROAD</option><option value="FIL LINE">FIL LINE</option><option value="ROLL & BRAKE">ROLL & BRAKE</option><option value="HADS">HADS</option></select></div><!-- Function Group --><div><label for="function_group">Function Group:</label><select id="function_group" name="function_group" required><option value="Interior">Interior</option><option value="Exterior">Exterior</option><option value="Chassis">Chassis</option><option value="Electrical">Electrical</option><option value="Paint">Paint</option><option value="Weld">Weld</option></select></div><!-- Part Name --><div><label for="part_name">Part Name:</label><input type="text" id="part_name" name="part_name" required></div><!-- Part Number --><div><label for="part_number">Part Number:</label><input type="text" id="part_number" name="part_number" required></div><!-- Define the Problem --><div><label for="defect">Define the Problem:</label><input type="text" id="defect" name="defect" required></div><!-- What (Green Y/Response/Output) --><div><label for="green_y">What (Green Y/Response/Output):</label><input type="text" id="green_y" name="green_y" required><p style="font-size: 12px; color: gray;">
-                The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
-            </p></div><!-- When (Problem First Seen) --><div><label for="problem_seen_date">When (Problem First Seen):</label><input type="date" id="problem_seen_date" name="problem_seen_date" required></div><!-- When (In Product Life Cycle) --><div><label for="product_life_cycle">When (In Product Life Cycle):</label><select id="product_life_cycle" name="product_life_cycle" required><option value="DV">DV</option><option value="PV">PV</option><option value="Prototype">Prototype</option><option value="T1">T1</option><option value="T2">T2</option><option value="Production">Production</option><option value="Other">Other</option></select></div><!-- Upload Photos --><div><label for="photos">Upload Photos:</label><input type="file" id="photos" name="photos" accept="image/*" multiple onchange="previewPhotos()"><div id="photo-preview" style="margin-top: 10px;"></div></div><!-- Where (In Vehicle) --><div><label for="in_vehicle">Where (In Vehicle):</label><select id="in_vehicle" name="in_vehicle" required><option value="Front Bumper">Front Bumper</option><option value="Rear Bumper">Rear Bumper</option><option value="Crashpad">Crashpad</option><option value="Seats">Seats</option><option value="Engine Bay">Engine Bay</option><option value="Transmission">Transmission</option><option value="Tailgate">Tailgate</option><option value="Wheels">Wheels</option><option value="Roof">Roof</option><option value="Underbody">Underbody</option><option value="Other">Other</option></select></div><!-- Where (Side of Vehicle) --><div><label for="side_of_vehicle">Where (Side of Vehicle):</label><select id="side_of_vehicle" name="side_of_vehicle" required><option value="Left Hand">Left Hand</option><option value="Right Hand">Right Hand</option><option value="Fore">Fore</option><option value="Aft">Aft</option><option value="+H">+H</option><option value="-H">-H</option></select></div><!-- Where (Additional) --><div><label for="additional_where">Where (Additional):</label><input type="text" id="additional_where" name="additional_where"></div></form></div><!-- D3 Section --><div id="d3" class="section"><h2>D3: Containment action</h2><form action="/create-issue" method="POST"><!-- Add form fields related to D3 here --></form></div><!-- D4 Section --><div id="d4" class="section"><h2>D4: Root cause analysis</h2><form action="/create-issue" method="POST"><!-- Add form fields related to D4 here --></form></div><!-- D5 Section --><div id="d5" class="section"><h2>D5: Potential corrective action</h2><form action="/create-issue" method="POST"><!-- Add form fields related to D5 here --></form></div><!-- D6 Section --><div id="d6" class="section"><h2>D6: Implement corrective action</h2><form action="/create-issue" method="POST"><!-- Add form fields related to D6 here --></form></div><!-- D7 Section --><div id="d7" class="section"><h2>D7: Take preventive action</h2><form action="/create-issue" method="POST"><!-- Add form fields related to D7 here --></form></div><!-- D8 Section --><div id="d8" class="section"><h2>D8: Read Across & Lessons learned</h2><form action="/create-issue" method="POST"><!-- Add form fields related to D8 here --></form></div><button type="submit">Submit Issue</button></div><script>functionshowSection(sectionId) ;{
-    // Hide all sectionsconst sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Quality Issue</title>
+    <style>
+        body {
+            background-color: lightblue;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            overflow-y: auto;
+            height: 100vh;
+            position: fixed;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #444;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: left;
+        }
+        .sidebar button:hover {
+            background-color: #555;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            width: 100%;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        select, input, textarea {
+            margin-bottom: 10px;
+            padding: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            width: 100%;
+        }
+        button[type="submit"] {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <button onclick="showSection('d1')">D1: Formation of a problem-solving team</button>
+        <button onclick="showSection('d2')">D2: Problem description</button>
+        <button onclick="showSection('d3')">D3: Containment action</button>
+        <button onclick="showSection('d4')">D4: Root cause analysis</button>
+        <button onclick="showSection('d5')">D5: Potential corrective action</button>
+        <button onclick="showSection('d6')">D6: Implement corrective action</button>
+        <button onclick="showSection('d7')">D7: Take preventive action</button>
+        <button onclick="showSection('d8')">D8: Read Across & Lessons Learned</button>
+    </div>
+    <div class="content">
+        <!-- D1 Section -->
+        <div id="d1" class="section">
+            <h2>D1: Formation of a problem-solving team</h2>
+            <form action="/create-issue" method="POST">
+                <!-- Add form fields related to D1 here -->
+            </form>
+        </div>
 
-    // Show the selected sectionconst selectedSection = document.getElementById(sectionId);
-    selectedSection.classList.add('active');
-}
+        <!-- D2: Problem Description (previously Define the Problem) -->
+        <div id="d2" class="section active">
+            <h2>D2: Problem description</h2>
+            <form action="/create-issue" method="POST" enctype="multipart/form-data">
+                <!-- Vehicle Model -->
+                <div>
+                    <label for="vehicle_model">Vehicle Model:</label>
+                    <select id="vehicle_model" name="vehicle_model" required>
+                        <option value="NQ5a">NQ5a</option>
+                        <option value="MQ4a">MQ4a</option>
+                        <option value="MV1a">MV1a</option>
+                        <option value="ON">ON</option>
+                    </select>
+                </div>
 
-functionpreviewPhotos() ;{{
-    const previewContainer = document.getElementById('photo-preview');
-    const files = document.getElementById('photos').files;
-    previewContainer.innerHTML = ''; // Clear any previous previewsif (files.length > 0) {
-        const firstFile = files[0];
-        const reader = newFileReader();
-        
-        reader.onload = function(e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.width = '150px';
-            img.style.height = '150px';
-            previewContainer.appendChild(img);
-        };
-        
-        reader.readAsDataURL(firstFile);
-    }
-}
-</script></body></html>
+                <!-- When (Process) -->
+                <div>
+                    <label for="process">When (Process):</label>
+                    <select id="process" name="process" required>
+                        <option value="FTTQ">FTTQ</option>
+                        <option value="Supplier">Supplier</option>
+                        <option value="Dealer Claim">Dealer Claim</option>
+                        <option value="3M">3M</option>
+                        <option value="Customer Audit">Customer Audit</option>
+                        <option value="GA">GA</option>
+                        <option value="Line Call">Line Call</option>
+                        <option value="VPC-RTP">VPC-RTP</option>
+                    </select>
+                </div>
+
+                <!-- Optional Process Dropdown -->
+                <div id="optionalProcessContainer" style="display:none;">
+                    <label for="optional_process">When (Optional):</label>
+                    <select id="optional_process" name="optional_process">
+                        <option value="OK LINE">OK LINE</option>
+                        <option value="TEST ROAD">TEST ROAD</option>
+                        <option value="FIL LINE">FIL LINE</option>
+                        <option value="ROLL & BRAKE">ROLL & BRAKE</option>
+                        <option value="HADS">HADS</option>
+                    </select>
+                </div>
+
+                <!-- Function Group -->
+                <div>
+                    <label for="function_group">Function Group:</label>
+                    <select id="function_group" name="function_group" required>
+                        <option value="Interior">Interior</option>
+                        <option value="Exterior">Exterior</option>
+                        <option value="Chassis">Chassis</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="Paint">Paint</option>
+                        <option value="Weld">Weld</option>
+                    </select>
+                </div>
+
+                <!-- Part Name -->
+                <div>
+                    <label for="part_name">Part Name:</label>
+                    <input type="text" id="part_name" name="part_name" required>
+                </div>
+
+                <!-- Part Number -->
+                <div>
+                    <label for="part_number">Part Number:</label>
+                    <input type="text" id="part_number" name="part_number" required>
+                </div>
+
+                <!-- Define the Problem -->
+                <div>
+                    <label for="defect">Define the Problem:</label>
+                    <input type="text" id="defect" name="defect" required>
+                </div>
+
+                <!-- What (Green Y/Response/Output) -->
+                <div>
+                    <label for="green_y">What (Green Y/Response/Output):</label>
+                    <input type="text" id="green_y" name="green_y" required>
+                    <p style="font-size: 12px; color: gray;">
+                        The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
+                    </p>
+                </div>
+
+                <!-- When (Problem First Seen) -->
+                <div>
+                    <label for="problem_seen_date">When (Problem First Seen):</label>
+                    <input type="date" id="problem_seen_date" name="problem_seen_date" required>
+                </div>
+
+                <!-- When (In Product Life Cycle) -->
+                <div>
+                    <label for="product_life_cycle">When (In Product Life Cycle):</label>
+                    <select id="product_life_cycle" name="product_life_cycle" required>
+                        <option value="DV">DV</option>
+                        <option value="PV">PV</option>
+                        <option value="Prototype">Prototype</option>
+                        <option value="T1">T1</option>
+                        <option value="T2">T2</option>
+                        <option value="Production">Production</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Upload Photos -->
+                <div>
+                    <label for="photos">Upload Photos:</label>
+                    <input type="file" id="photos" name="photos" accept="image/*" multiple onchange="previewPhotos()">
+                    <div id="photo-preview" style="margin-top: 10px;"></div>
+                </div>
+
+                <!-- Where (In Vehicle) -->
+                <div>
+                    <label for="in_vehicle">Where (In Vehicle):</label>
+                    <select id="in_vehicle" name="in_vehicle" required>
+                        <option value="Front Bumper">Front Bumper</option>
+                        <option value="Rear Bumper">Rear Bumper</option>
+                        <option value="Crashpad">Crashpad</option>
+                        <option value="Seats">Seats</option>
+                        <option value="Engine Bay">Engine Bay</option>
+                        <option value="Transmission">Transmission</option>
+                        <option value="Tailgate">Tailgate</option>
+                        <option value="Wheels">Wheels</option>
+                        <option value="Roof">Roof</option>
+                        <option value="Underbody">Underbody</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Where (Side of Vehicle) -->
+                <div>
+                    <label for="side_of_vehicle">Where (Side of Vehicle):</label>
+                    <select id="side_of_vehicle" name="side_of_vehicle" required>
+                        <option value="Left Hand">Left Hand</option>
+                        <option value="Right Hand">Right Hand</option>
+                        <option value="Fore">Fore</option>
+                        <option value="Aft">Aft</option>
+                        <option value="+H">+H</option>
+                        <option value="-H">-H</option>
+                    </select>
+                </div>
+
+                <!-- Where (Additional) -->
+                <div>
+                    <label for="additional_where">Where (Additional):</label>
+                    <input type="text" id="additional_where" name="additional_where">
+                </div>
+
+                <button type="submit">Submit Issue</button>
+            </form>
+        </div>
+
+        <!-- D3 Section -->
+        <div id="d3" class="section">
+            <h2>D3: Containment action</h2>
+            <form action="/create-issue" method="POST">
+                <!-- Add form fields related to D3 here -->
+            </form>
+        </div>
+
+        <!-- D4 Section -->
+        <div id="d4" class="section">
+            <h2>D4: Root cause analysis</h2>
+            <form action="/create-issue" method="POST">
+                <!-- Add form fields related to D4 here -->
+            </form>
+        </div>
+
+        <!-- D5 Section -->
+        <div id="d5" class="section">
+            <h2>D5: Potential corrective action</h2>
+            <form action="/create-issue" method="POST">
+                <!-- Add form fields related to D5 here -->
+            </form>
+        </div>
+
+        <!-- D6 Section -->
+        <div id="d6" class="section">
+            <h2>D6: Implement corrective action</h2>
+            <form action="/create-issue" method="POST">
+                <!-- Add form fields related to D6 here -->
+            </form>
+        </div>
+
+        <!-- D7 Section -->
+        <div id="d7" class="section">
+            <h2>D7: Take preventive action</h2>
+            <form action="/create-issue" method="POST">
+                <!-- Add form fields related to D7 here -->
+            </form>
+        </div>
+
+        <!-- D8 Section -->
+        <div id="d8" class="section">
+            <h2>D8: Read Across & Lessons learned</h2>
+            <form action="/create-issue" method="POST">
+                <!-- Add form fields related to D8 here -->
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section
+            const selectedSection = document.getElementById(sectionId);
+            selectedSection.classList.add('active');
+        }
+
+        function previewPhotos() {
+            const previewContainer = document.getElementById('photo-preview');
+            const files = document.getElementById('photos').files;
+            previewContainer.innerHTML = ''; // Clear any previous previews
+
+            if (files.length > 0) {
+                const firstFile = files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '150px';
+                    img.style.height = '150px';
+                    previewContainer.appendChild(img);
+                };
+
+                reader.readAsDataURL(firstFile);
+            }
+        }
+    </script>
+</body>
+</html>
