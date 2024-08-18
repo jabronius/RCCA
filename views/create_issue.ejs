@@ -55,7 +55,7 @@
             padding: 5px;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            width: 50%; /* Reduced width to half */
+            width: 50%;
         }
         button[type="submit"] {
             padding: 10px 15px;
@@ -78,6 +78,12 @@
             border-radius: 5px;
             font-weight: bold;
         }
+        .dashboard-link {
+            font-size: 8pt;
+            text-align: center;
+            display: block;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -92,287 +98,241 @@
         <button onclick="showSection('d8')">D8: Read Across & Lessons Learned</button>
     </div>
     <div class="content">
+        <!-- Link to Dashboard -->
+        <a href="/" class="dashboard-link">Back to Dashboard</a>
+
         <!-- Universal Header -->
- <div class="universal-header">
-    CAR#: <%= carNumber ? carNumber : 'Not yet created' %> | Issue Creator: <%= issueCreatorName %>
-</div>
-
-<!-- Add this link to go back to the dashboard -->
-<div style="text-align: center; font-size: 12px; margin-bottom: 10px;">
-    <a href="/" style="text-decoration: none; color: #007BFF;">Back to Dashboard</a>
-</div>
-
-
-
-<!-- D1 Section: Formation of a Problem-Solving Team -->
-<div id="d1" class="section">
-    <h2>D1: Formation of a Problem-Solving Team</h2>
-    <form action="/submit-d1" method="POST">
-        <!-- Team Member Inputs -->
-        <div>
-            <label for="root_cause_champion">Root Cause Champion Role:</label>
-            <input type="text" id="root_cause_champion" name="team_members[root_cause_champion]" placeholder="Enter first and last name" required>
+        <div class="universal-header">
+            CAR#: <%= carNumber ? carNumber : 'Not yet created' %> | Issue Creator: <%= issueCreatorName %>
         </div>
 
-        <div>
-            <label for="hod_responsible">HOD Responsible Role:</label>
-            <input type="text" id="hod_responsible" name="team_members[hod_responsible]" placeholder="Enter first and last name" required>
+        <!-- D1 Section: Formation of a Problem-Solving Team -->
+        <div id="d1" class="section <%= car && car.d1 ? 'active' : '' %>">
+            <h2>D1: Formation of a Problem-Solving Team</h2>
+            <form action="/submit-d1" method="POST">
+                <!-- Team Member Inputs -->
+                <div>
+                    <label for="root_cause_champion">Root Cause Champion Role:</label>
+                    <input type="text" id="root_cause_champion" name="team_members[root_cause_champion]" value="<%= car.d1 ? car.d1.root_cause_champion : '' %>" placeholder="Enter first and last name" required>
+                </div>
+
+                <div>
+                    <label for="hod_responsible">HOD Responsible Role:</label>
+                    <input type="text" id="hod_responsible" name="team_members[hod_responsible]" value="<%= car.d1 ? car.d1.hod_responsible : '' %>" placeholder="Enter first and last name" required>
+                </div>
+
+                <div>
+                    <label for="support_role">Support Role:</label>
+                    <input type="text" id="support_role" name="team_members[support_role]" value="<%= car.d1 ? car.d1.support_role : '' %>" placeholder="Enter first and last name" required>
+                </div>
+
+                <div>
+                    <label for="issue_creator">Issue Creator Role:</label>
+                    <input type="text" id="issue_creator" name="team_members[issue_creator]" value="<%= car.d1 ? car.d1.issue_creator : '' %>" placeholder="Enter first and last name" required>
+                </div>
+
+                <div>
+                    <label for="car_system_tracker">CAR System Tracker Role:</label>
+                    <input type="text" id="car_system_tracker" name="team_members[car_system_tracker]" value="<%= car.d1 ? car.d1.car_system_tracker : '' %>" placeholder="Enter first and last name" required>
+                </div>
+
+                <!-- Option to add more team members -->
+                <div id="additional_members"></div>
+                <button type="button" onclick="addMember()">Add Another Member (Optional)</button>
+
+                <!-- Submit Button -->
+                <button type="submit">Submit Team Members</button>
+            </form>
         </div>
 
-        <div>
-            <label for="support_role">Support Role:</label>
-            <input type="text" id="support_role" name="team_members[support_role]" placeholder="Enter first and last name" required>
+        <!-- D2: Problem Description (previously Define the Problem) -->
+        <div id="d2" class="section <%= car && car.d2 ? 'active' : '' %>">
+            <h2>D2: Problem description</h2>
+            <form action="/submit-d2/<%= car._id %>" method="POST" enctype="multipart/form-data">
+                <!-- Vehicle Model -->
+                <div>
+                    <label for="vehicle_model">Vehicle Model:</label>
+                    <select id="vehicle_model" name="d2[vehicle_model]" required>
+                        <option value="NQ5a" <%= car.d2 && car.d2.vehicle_model === 'NQ5a' ? 'selected' : '' %>>NQ5a</option>
+                        <option value="MQ4a" <%= car.d2 && car.d2.vehicle_model === 'MQ4a' ? 'selected' : '' %>>MQ4a</option>
+                        <option value="MV1a" <%= car.d2 && car.d2.vehicle_model === 'MV1a' ? 'selected' : '' %>>MV1a</option>
+                        <option value="ON" <%= car.d2 && car.d2.vehicle_model === 'ON' ? 'selected' : '' %>>ON</option>
+                    </select>
+                </div>
+
+                <!-- Part Name -->
+                <div>
+                    <label for="part_name">Part Name:</label>
+                    <input type="text" id="part_name" name="d2[part_name]" value="<%= car.d2 ? car.d2.part_name : '' %>" required>
+                </div>
+
+                <!-- Part Number -->
+                <div>
+                    <label for="part_number">Part Number:</label>
+                    <input type="text" id="part_number" name="d2[part_number]" value="<%= car.d2 ? car.d2.part_number : '' %>" required>
+                </div>
+
+                <!-- Define the Problem -->
+                <div>
+                    <label for="defect">Define the Problem:</label>
+                    <input type="text" id="defect" name="d2[defect]" value="<%= car.d2 ? car.d2.defect : '' %>" required>
+                </div>
+
+                <!-- What (Green Y/Response/Output) -->
+                <div>
+                    <label for="green_y">What (Green Y/Response/Output):</label>
+                    <input type="text" id="green_y" name="d2[green_y]" value="<%= car.d2 ? car.d2.green_y : '' %>" required>
+                    <p style="font-size: 12px; color: gray;">
+                        The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
+                    </p>
+                </div>
+
+                <!-- When (Problem First Seen) -->
+                <div>
+                    <label for="problem_seen_date">When (Problem First Seen):</label>
+                    <input type="date" id="problem_seen_date" name="d2[problem_seen_date]" value="<%= car.d2 ? car.d2.problem_seen_date : '' %>" required>
+                </div>
+
+                <!-- When (In Product Life Cycle) -->
+                <div>
+                    <label for="product_life_cycle">When (In Product Life Cycle):</label>
+                    <select id="product_life_cycle" name="d2[product_life_cycle]" required>
+                        <option value="DV" <%= car.d2 && car.d2.product_life_cycle === 'DV' ? 'selected' : '' %>>DV</option>
+                        <option value="PV" <%= car.d2 && car.d2.product_life_cycle === 'PV' ? 'selected' : '' %>>PV</option>
+                        <option value="Prototype" <%= car.d2 && car.d2.product_life_cycle === 'Prototype' ? 'selected' : '' %>>Prototype</option>
+                        <option value="T1" <%= car.d2 && car.d2.product_life_cycle === 'T1' ? 'selected' : '' %>>T1</option>
+                        <option value="T2" <%= car.d2 && car.d2.product_life_cycle === 'T2' ? 'selected' : '' %>>T2</option>
+                        <option value="Production" <%= car.d2 && car.d2.product_life_cycle === 'Production' ? 'selected' : '' %>>Production</option>
+                        <option value="Other" <%= car.d2 && car.d2.product_life_cycle === 'Other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                </div>
+
+                <!-- Upload Photos -->
+                <div>
+                    <label for="photos">Upload Photos:</label>
+                    <input type="file" id="photos" name="photos" accept="image/*" multiple onchange="previewPhotos()">
+                    <div id="photo-preview" style="margin-top: 10px;"></div>
+                </div>
+
+                <!-- Where (In Vehicle) -->
+                <div>
+                    <label for="in_vehicle">Where (In Vehicle):</label>
+                    <input type="text" id="in_vehicle" name="d2[in_vehicle]" value="<%= car.d2 ? car.d2.in_vehicle : '' %>" required>
+                </div>
+
+                <!-- Where (Side of Vehicle) -->
+                <div>
+                    <label for="side_of_vehicle">Where (Side of Vehicle):</label>
+                    <select id="side_of_vehicle" name="d2[side_of_vehicle]" required>
+                        <option value="Left Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Left Hand' ? 'selected' : '' %>>Left Hand</option>
+                        <option value="Right Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Right Hand' ? 'selected' : '' %>>Right Hand</option>
+                        <option value="Fore" <%= car.d2 && car.d2.side_of_vehicle === 'Fore' ? 'selected' : '' %>>Fore</option>
+                        <option value="Aft" <%= car.d2 && car.d2.side_of_vehicle === 'Aft' ? 'selected' : '' %>>Aft</option>
+                        <option value="+H" <%= car.d2 && car.d2.side_of_vehicle === '+H' ? 'selected' : '' %>>+H</option>
+                        <option value="-H" <%= car.d2 && car.d2.side_of_vehicle === '-H' ? 'selected' : '' %>>-H</option>
+                    </select>
+                </div>
+
+                <!-- Where (Additional) -->
+                <div>
+                    <label for="additional_where">Where (Additional):</label>
+                    <input type="text" id="additional_where" name="d2[additional_where]" value="<%= car.d2 ? car.d2.additional_where : '' %>">
+                </div>
+
+                <button type="submit">Submit Problem Description</button>
+            </form>
         </div>
-
-        <div>
-            <label for="issue_creator">Issue Creator Role:</label>
-            <input type="text" id="issue_creator" name="team_members[issue_creator]" placeholder="Enter first and last name" required>
-        </div>
-
-        <div>
-            <label for="car_system_tracker">CAR System Tracker Role:</label>
-            <input type="text" id="car_system_tracker" name="team_members[car_system_tracker]" placeholder="Enter first and last name" required>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit">Submit Team Members</button>
-    </form>
-</div>
-
-<div id="d2" class="section">
-    <h2>D2: Problem description</h2>
-    <form action="/submit-d2/<%= car._id %>" method="POST" enctype="multipart/form-data">
-        <!-- Vehicle Model -->
-        <div>
-            <label for="vehicle_model">Vehicle Model:</label>
-            <select id="vehicle_model" name="vehicle_model" required>
-                <option value="NQ5a">NQ5a</option>
-                <option value="MQ4a">MQ4a</option>
-                <option value="MV1a">MV1a</option>
-                <option value="ON">ON</option>
-            </select>
-        </div>
-
-        <!-- When (Process) -->
-        <div>
-            <label for="process">When (Process):</label>
-            <select id="process" name="process" required>
-                <option value="FTTQ">FTTQ</option>
-                <option value="Supplier">Supplier</option>
-                <option value="Dealer Claim">Dealer Claim</option>
-                <option value="3M">3M</option>
-                <option value="Customer Audit">Customer Audit</option>
-                <option value="GA">GA</option>
-                <option value="Line Call">Line Call</option>
-                <option value="VPC-RTP">VPC-RTP</option>
-            </select>
-        </div>
-
-        <!-- Optional Process Dropdown -->
-        <div id="optionalProcessContainer" style="display:none;">
-            <label for="optional_process">When (Optional):</label>
-            <select id="optional_process" name="optional_process">
-                <option value="OK LINE">OK LINE</option>
-                <option value="TEST ROAD">TEST ROAD</option>
-                <option value="FIL LINE">FIL LINE</option>
-                <option value="ROLL & BRAKE">ROLL & BRAKE</option>
-                <option value="HADS">HADS</option>
-            </select>
-        </div>
-
-        <!-- Function Group -->
-        <div>
-            <label for="function_group">Function Group:</label>
-            <select id="function_group" name="function_group" required>
-                <option value="Interior">Interior</option>
-                <option value="Exterior">Exterior</option>
-                <option value="Chassis">Chassis</option>
-                <option value="Electrical">Electrical</option>
-                <option value="Paint">Paint</option>
-                <option value="Weld">Weld</option>
-            </select>
-        </div>
-
-        <!-- Part Name -->
-        <div>
-            <label for="part_name">Part Name:</label>
-            <input type="text" id="part_name" name="part_name" required>
-        </div>
-
-        <!-- Part Number -->
-        <div>
-            <label for="part_number">Part Number:</label>
-            <input type="text" id="part_number" name="part_number" required>
-        </div>
-
-        <!-- Define the Problem -->
-        <div>
-            <label for="defect">Define the Problem:</label>
-            <input type="text" id="defect" name="defect" required>
-        </div>
-
-        <!-- What (Green Y/Response/Output) -->
-        <div>
-            <label for="green_y">What (Green Y/Response/Output):</label>
-            <input type="text" id="green_y" name="green_y" required>
-            <p style="font-size: 12px; color: gray;">
-                The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
-            </p>
-        </div>
-
-        <!-- When (Problem First Seen) -->
-        <div>
-            <label for="problem_seen_date">When (Problem First Seen):</label>
-            <input type="date" id="problem_seen_date" name="problem_seen_date" required>
-        </div>
-
-        <!-- When (In Product Life Cycle) -->
-        <div>
-            <label for="product_life_cycle">When (In Product Life Cycle):</label>
-            <select id="product_life_cycle" name="product_life_cycle" required>
-                <option value="DV">DV</option>
-                <option value="PV">PV</option>
-                <option value="Prototype">Prototype</option>
-                <option value="T1">T1</option>
-                <option value="T2">T2</option>
-                <option value="Production">Production</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
-        <!-- Upload Photos -->
-        <div>
-            <label for="photos">Upload Photos:</label>
-            <input type="file" id="photos" name="photos" accept="image/*" multiple onchange="previewPhotos()">
-            <div id="photo-preview" style="margin-top: 10px;"></div>
-        </div>
-
-        <!-- Where (In Vehicle) -->
-        <div>
-            <label for="in_vehicle">Where (In Vehicle):</label>
-            <select id="in_vehicle" name="in_vehicle" required>
-                <option value="Front Bumper">Front Bumper</option>
-                <option value="Rear Bumper">Rear Bumper</option>
-                <option value="Crashpad">Crashpad</option>
-                <option value="Seats">Seats</option>
-                <option value="Engine Bay">Engine Bay</option>
-                <option value="Transmission">Transmission</option>
-                <option value="Tailgate">Tailgate</option>
-                <option value="Wheels">Wheels</option>
-                <option value="Roof">Roof</option>
-                <option value="Underbody">Underbody</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
-        <!-- Where (Side of Vehicle) -->
-        <div>
-            <label for="side_of_vehicle">Where (Side of Vehicle):</label>
-            <select id="side_of_vehicle" name="side_of_vehicle" required>
-                <option value="Left Hand">Left Hand</option>
-                <option value="Right Hand">Right Hand</option>
-                <option value="Fore">Fore</option>
-                <option value="Aft">Aft</option>
-                <option value="+H">+H</option>
-                <option value="-H">-H</option>
-            </select>
-        </div>
-
-        <!-- Where (Additional) -->
-        <div>
-            <label for="additional_where">Where (Additional):</label>
-            <input type="text" id="additional_where" name="additional_where">
-        </div>
-
-        <button type="submit">Submit Problem Description</button>
-    </form>
-</div>
-
 
         <!-- D3 Section: Containment Action -->
-        <div id="d3" class="section">
+        <div id="d3" class="section <%= car && car.d3 ? 'active' : '' %>">
             <h2>D3: Containment Action</h2>
-            <form action="/create-issue" method="POST">
-                <!-- 1. Recall Parts that Recently Shipped? -->
+            <form action="/submit-d3/<%= car._id %>" method="POST" enctype="multipart/form-data">
+                <!-- Recall Parts that Recently Shipped -->
                 <div>
                     <label for="recall_parts_notes">Recall Parts that Recently Shipped:</label>
-                    <input type="text" id="recall_parts_notes" name="containment[recall_parts_notes]" placeholder="Notes or more info">
+                    <input type="text" id="recall_parts_notes" name="d3[recall_parts_notes]" value="<%= car.d3 ? car.d3.recall_parts_notes : '' %>" placeholder="Notes or more info">
                 </div>
 
-                <!-- 2. Stop parts in shipping department -->
+                <!-- Stop parts in shipping department -->
                 <div>
                     <label for="shipping_department_notes">Stop Parts in Shipping Department:</label>
-                    <input type="text" id="shipping_department_notes" name="containment[shipping_department_notes]" placeholder="Alert PC Department, Alert GLovis, more details">
+                    <input type="text" id="shipping_department_notes" name="d3[shipping_department_notes]" value="<%= car.d3 ? car.d3.shipping_department_notes : '' %>" placeholder="Alert PC Department, Alert GLovis, more details">
                 </div>
 
-                <!-- 3. Isolate parts in stock -->
+                <!-- Isolate parts in stock -->
                 <div>
                     <label for="isolate_parts">Isolate Parts in Stock:</label>
-                    <input type="text" id="isolate_parts" name="containment[isolate_parts]" placeholder="Add details">
+                    <input type="text" id="isolate_parts" name="d3[isolate_parts]" value="<%= car.d3 ? car.d3.isolate_parts : '' %>" placeholder="Add details">
                 </div>
 
-                <!-- 4. Issue Alerted to Final Inspection -->
+                <!-- Issue Alerted to Final Inspection -->
                 <div>
                     <label for="final_inspection_notes">Issue Alerted to Final Inspection:</label>
-                    <input type="text" id="final_inspection_notes" name="containment[final_inspection_notes]" placeholder="More info">
+                    <input type="text" id="final_inspection_notes" name="d3[final_inspection_notes]" value="<%= car.d3 ? car.d3.final_inspection_notes : '' %>" placeholder="More info">
                 </div>
 
-                <!-- 5. Quarantine between root cause area and final inspection -->
+                <!-- Quarantine between root cause area and final inspection -->
                 <div>
                     <label for="quarantine_notes">Quarantine Between Root Cause Area and Final Inspection:</label>
-                    <input type="text" id="quarantine_notes" name="containment[quarantine_notes]" placeholder="More detail">
+                    <input type="text" id="quarantine_notes" name="d3[quarantine_notes]" value="<%= car.d3 ? car.d3.quarantine_notes : '' %>" placeholder="More detail">
                 </div>
 
-                <!-- 6. Sort - Part sort? -->
+                <!-- Sort - Part Sort/Yard Sweep -->
                 <div>
                     <label for="sort_notes">Sort - Part Sort / Yard Sweep:</label>
-                    <input type="text" id="sort_notes" name="containment[sort_notes]" placeholder="More detail">
+                    <input type="text" id="sort_notes" name="d3[sort_notes]" value="<%= car.d3 ? car.d3.sort_notes : '' %>" placeholder="More detail">
                 </div>
 
                 <!-- Additional Fields: Number of Parts Sorted and Vehicles Sorted -->
                 <div>
                     <h3>Number of Parts Sorted</h3>
                     <label for="parts_sorted_qty">Qty:</label>
-                    <input type="number" id="parts_sorted_qty" name="containment[parts_sorted_qty]">
+                    <input type="number" id="parts_sorted_qty" name="d3[parts_sorted_qty]" value="<%= car.d3 ? car.d3.parts_sorted_qty : '' %>">
 
                     <label for="parts_date_of_check">Date of Check:</label>
-                    <input type="date" id="parts_date_of_check" name="containment[parts_date_of_check]">
+                    <input type="date" id="parts_date_of_check" name="d3[parts_date_of_check]" value="<%= car.d3 ? car.d3.parts_date_of_check : '' %>">
 
                     <label for="ok_parts_qty">Number of OK Parts (Qty):</label>
-                    <input type="number" id="ok_parts_qty" name="containment[ok_parts_qty]">
+                    <input type="number" id="ok_parts_qty" name="d3[ok_parts_qty]" value="<%= car.d3 ? car.d3.ok_parts_qty : '' %>">
 
                     <label for="ng_parts_qty">Number of NG Parts (Qty):</label>
-                    <input type="number" id="ng_parts_qty" name="containment[ng_parts_qty]">
+                    <input type="number" id="ng_parts_qty" name="d3[ng_parts_qty]" value="<%= car.d3 ? car.d3.ng_parts_qty : '' %>">
 
                     <label for="parts_note">Note:</label>
-                    <textarea id="parts_note" name="containment[parts_note]" rows="2" placeholder="Additional notes"></textarea>
+                    <textarea id="parts_note" name="d3[parts_note]" rows="2" placeholder="Additional notes"><%= car.d3 ? car.d3.parts_note : '' %></textarea>
                 </div>
 
                 <div>
                     <h3>Number of Vehicles Sorted</h3>
                     <label for="vehicles_sorted_qty">Qty:</label>
-                    <input type="number" id="vehicles_sorted_qty" name="containment[vehicles_sorted_qty]">
+                    <input type="number" id="vehicles_sorted_qty" name="d3[vehicles_sorted_qty]" value="<%= car.d3 ? car.d3.vehicles_sorted_qty : '' %>">
 
                     <label for="date_begin_sort">Date of Beginning of Sort:</label>
-                    <input type="date" id="date_begin_sort" name="containment[date_begin_sort]">
+                    <input type="date" id="date_begin_sort" name="d3[date_begin_sort]" value="<%= car.d3 ? car.d3.date_begin_sort : '' %>">
 
                     <label for="date_end_sort">Date of Ending of Sort:</label>
-                    <input type="date" id="date_end_sort" name="containment[date_end_sort]">
+                    <input type="date" id="date_end_sort" name="d3[date_end_sort]" value="<%= car.d3 ? car.d3.date_end_sort : '' %>">
 
                     <label for="ok_body_numbers">Number of OK Body Numbers:</label>
-                    <input type="number" id="ok_body_numbers" name="containment[ok_body_numbers]">
+                    <input type="number" id="ok_body_numbers" name="d3[ok_body_numbers]" value="<%= car.d3 ? car.d3.ok_body_numbers : '' %>">
 
                     <label for="ng_body_numbers">Number of NG Body Numbers:</label>
-                    <input type="number" id="ng_body_numbers" name="containment[ng_body_numbers]">
+                    <input type="number" id="ng_body_numbers" name="d3[ng_body_numbers]" value="<%= car.d3 ? car.d3.ng_body_numbers : '' %>">
 
                     <label for="vehicles_note">Note:</label>
-                    <textarea id="vehicles_note" name="containment[vehicles_note]" rows="2" placeholder="Additional notes"></textarea>
+                    <textarea id="vehicles_note" name="d3[vehicles_note]" rows="2" placeholder="Additional notes"><%= car.d3 ? car.d3.vehicles_note : '' %></textarea>
+                </div>
+
+                <!-- Upload Sort and Yard Sweep Documents -->
+                <div>
+                    <label for="sort_docs">Upload Sort/Yard Sweep Documents:</label>
+                    <input type="file" id="sort_docs" name="sort_docs" accept=".xlsx,.xls,.csv" multiple>
                 </div>
 
                 <!-- RESULTS SECTION -->
                 <div>
                     <label for="results">Results Section:</label>
-                    <textarea id="results" name="containment[results]" rows="4" placeholder="Specific info"></textarea>
+                    <textarea id="results" name="d3[results]" rows="4" placeholder="Specific info"><%= car.d3 ? car.d3.results : '' %></textarea>
                 </div>
 
                 <button type="submit">Submit Containment Action</button>
@@ -380,41 +340,41 @@
         </div>
 
         <!-- D4 Section -->
-        <div id="d4" class="section">
+        <div id="d4" class="section <%= car && car.d4 ? 'active' : '' %>">
             <h2>D4: Root cause analysis</h2>
-            <form action="/create-issue" method="POST">
+            <form action="/submit-d4/<%= car._id %>" method="POST">
                 <!-- Add form fields related to D4 here -->
             </form>
         </div>
 
         <!-- D5 Section -->
-        <div id="d5" class="section">
+        <div id="d5" class="section <%= car && car.d5 ? 'active' : '' %>">
             <h2>D5: Potential corrective action</h2>
-            <form action="/create-issue" method="POST">
+            <form action="/submit-d5/<%= car._id %>" method="POST">
                 <!-- Add form fields related to D5 here -->
             </form>
         </div>
 
         <!-- D6 Section -->
-        <div id="d6" class="section">
+        <div id="d6" class="section <%= car && car.d6 ? 'active' : '' %>">
             <h2>D6: Implement corrective action</h2>
-            <form action="/create-issue" method="POST">
+            <form action="/submit-d6/<%= car._id %>" method="POST">
                 <!-- Add form fields related to D6 here -->
             </form>
         </div>
 
         <!-- D7 Section -->
-        <div id="d7" class="section">
+        <div id="d7" class="section <%= car && car.d7 ? 'active' : '' %>">
             <h2>D7: Take preventive action</h2>
-            <form action="/create-issue" method="POST">
+            <form action="/submit-d7/<%= car._id %>" method="POST">
                 <!-- Add form fields related to D7 here -->
             </form>
         </div>
 
         <!-- D8 Section -->
-        <div id="d8" class="section">
+        <div id="d8" class="section <%= car && car.d8 ? 'active' : '' %>">
             <h2>D8: Read Across & Lessons learned</h2>
-            <form action="/create-issue" method="POST">
+            <form action="/submit-d8/<%= car._id %>" method="POST">
                 <!-- Add form fields related to D8 here -->
             </form>
         </div>
@@ -451,6 +411,18 @@
                 };
 
                 reader.readAsDataURL(firstFile);
+            }
+        }
+
+        function addMember() {
+            if (memberCount < 10) {
+                memberCount++;
+                const div = document.createElement('div');
+                div.innerHTML = `<label for="member_${memberCount}">Additional Team Member ${memberCount}:</label>
+                                 <input type="text" id="member_${memberCount}" name="team_members[additional_member_${memberCount}]" placeholder="Enter first and last name">`;
+                document.getElementById('additional_members').appendChild(div);
+            } else {
+                alert('You can only add up to 10 members.');
             }
         }
     </script>
