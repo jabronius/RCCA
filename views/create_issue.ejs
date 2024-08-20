@@ -145,239 +145,644 @@
             </form>
         </div>
 
-        <!-- D2: Problem Description (previously Define the Problem) -->
-        <div id="d2" class="section <%= car && car.d2 ? 'active' : '' %>">
-            <h2>D2: Problem description</h2>
-            <form action="/submit-d2/<%= car._id %>" method="POST" enctype="multipart/form-data">
-                <!-- Vehicle Model -->
-                <div>
-                    <label for="vehicle_model">Vehicle Model:</label>
-                    <select id="vehicle_model" name="d2[vehicle_model]" required>
-                        <option value="NQ5a" <%= car.d2 && car.d2.vehicle_model === 'NQ5a' ? 'selected' : '' %>>NQ5a</option>
-                        <option value="MQ4a" <%= car.d2 && car.d2.vehicle_model === 'MQ4a' ? 'selected' : '' %>>MQ4a</option>
-                        <option value="MV1a" <%= car.d2 && car.d2.vehicle_model === 'MV1a' ? 'selected' : '' %>>MV1a</option>
-                        <option value="ON" <%= car.d2 && car.d2.vehicle_model === 'ON' ? 'selected' : '' %>>ON</option>
-                    </select>
-                </div>
-
-                <!-- Part Name -->
-                <div>
-                    <label for="part_name">Part Name:</label>
-                    <input type="text" id="part_name" name="d2[part_name]" value="<%= car.d2 ? car.d2.part_name : '' %>" required>
-                </div>
-
-                <!-- Part Number -->
-                <div>
-                    <label for="part_number">Part Number:</label>
-                    <input type="text" id="part_number" name="d2[part_number]" value="<%= car.d2 ? car.d2.part_number : '' %>" required>
-                </div>
-
-                <!-- Define the Problem -->
-                <div>
-                    <label for="defect">Define the Problem:</label>
-                    <input type="text" id="defect" name="d2[defect]" value="<%= car.d2 ? car.d2.defect : '' %>" required>
-                </div>
-
-                <!-- What (Green Y/Response/Output) -->
-                <div>
-                    <label for="green_y">What (Green Y/Response/Output):</label>
-                    <input type="text" id="green_y" name="d2[green_y]" value="<%= car.d2 ? car.d2.green_y : '' %>" required>
-                    <p style="font-size: 12px; color: gray;">
-                        The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
-                    </p>
-                </div>
-
-                <!-- When (Problem First Seen) -->
-                <div>
-                    <label for="problem_seen_date">When (Problem First Seen):</label>
-                    <input type="date" id="problem_seen_date" name="d2[problem_seen_date]" value="<%= car.d2 ? car.d2.problem_seen_date : '' %>" required>
-                </div>
-
-                <!-- When (In Product Life Cycle) -->
-                <div>
-                    <label for="product_life_cycle">When (In Product Life Cycle):</label>
-                    <select id="product_life_cycle" name="d2[product_life_cycle]" required>
-                        <option value="DV" <%= car.d2 && car.d2.product_life_cycle === 'DV' ? 'selected' : '' %>>DV</option>
-                        <option value="PV" <%= car.d2 && car.d2.product_life_cycle === 'PV' ? 'selected' : '' %>>PV</option>
-                        <option value="Prototype" <%= car.d2 && car.d2.product_life_cycle === 'Prototype' ? 'selected' : '' %>>Prototype</option>
-                        <option value="T1" <%= car.d2 && car.d2.product_life_cycle === 'T1' ? 'selected' : '' %>>T1</option>
-                        <option value="T2" <%= car.d2 && car.d2.product_life_cycle === 'T2' ? 'selected' : '' %>>T2</option>
-                        <option value="Production" <%= car.d2 && car.d2.product_life_cycle === 'Production' ? 'selected' : '' %>>Production</option>
-                        <option value="Other" <%= car.d2 && car.d2.product_life_cycle === 'Other' ? 'selected' : '' %>>Other</option>
-                    </select>
-                </div>
-
-                <!-- Upload Photos -->
-                <div>
-                    <label for="photos">Upload Photos:</label>
-                    <input type="file" id="photos" name="photos" accept="image/*" multiple onchange="previewPhotos()">
-                    <div id="photo-preview" style="margin-top: 10px;"></div>
-                </div>
-
-                <!-- Where (In Vehicle) -->
-                <div>
-                    <label for="in_vehicle">Where (In Vehicle):</label>
-                    <input type="text" id="in_vehicle" name="d2[in_vehicle]" value="<%= car.d2 ? car.d2.in_vehicle : '' %>" required>
-                </div>
-
-                <!-- Where (Side of Vehicle) -->
-                <div>
-                    <label for="side_of_vehicle">Where (Side of Vehicle):</label>
-                    <select id="side_of_vehicle" name="d2[side_of_vehicle]" required>
-                        <option value="Left Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Left Hand' ? 'selected' : '' %>>Left Hand</option>
-                        <option value="Right Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Right Hand' ? 'selected' : '' %>>Right Hand</option>
-                        <option value="Fore" <%= car.d2 && car.d2.side_of_vehicle === 'Fore' ? 'selected' : '' %>>Fore</option>
-                        <option value="Aft" <%= car.d2 && car.d2.side_of_vehicle === 'Aft' ? 'selected' : '' %>>Aft</option>
-                        <option value="+H" <%= car.d2 && car.d2.side_of_vehicle === '+H' ? 'selected' : '' %>>+H</option>
-                        <option value="-H" <%= car.d2 && car.d2.side_of_vehicle === '-H' ? 'selected' : '' %>>-H</option>
-                    </select>
-                </div>
-
-                <!-- Where (Additional) -->
-                <div>
-                    <label for="additional_where">Where (Additional):</label>
-                    <input type="text" id="additional_where" name="d2[additional_where]" value="<%= car.d2 ? car.d2.additional_where : '' %>">
-                </div>
-
-                <button type="submit">Submit Problem Description</button>
-            </form>
+   <!-- D2: Problem Description (previously Define the Problem) -->
+<div id="d2" class="section <%= car && car.d2 ? 'active' : '' %>">
+    <h2>D2: Problem description</h2>
+    <form action="/submit-d2/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Add other fields as discussed -->
+        <input type="hidden" name="debug" value="D2 form submitted">
+    </form>
+        <!-- Vehicle Model -->
+        <div>
+            <label for="vehicle_model">Vehicle Model:</label>
+            <select id="vehicle_model" name="d2[vehicle_model]" required>
+                <option value="NQ5a" <%= car.d2 && car.d2.vehicle_model === 'NQ5a' ? 'selected' : '' %>>NQ5a</option>
+                <option value="MQ4a" <%= car.d2 && car.d2.vehicle_model === 'MQ4a' ? 'selected' : '' %>>MQ4a</option>
+                <option value="MV1a" <%= car.d2 && car.d2.vehicle_model === 'MV1a' ? 'selected' : '' %>>MV1a</option>
+                <option value="ON" <%= car.d2 && car.d2.vehicle_model === 'ON' ? 'selected' : '' %>>ON</option>
+            </select>
         </div>
 
-        <!-- D3 Section: Containment Action -->
-        <div id="d3" class="section <%= car && car.d3 ? 'active' : '' %>">
-            <h2>D3: Containment Action</h2>
-            <form action="/submit-d3/<%= car._id %>" method="POST" enctype="multipart/form-data">
-                <!-- Recall Parts that Recently Shipped -->
-                <div>
-                    <label for="recall_parts_notes">Recall Parts that Recently Shipped:</label>
-                    <input type="text" id="recall_parts_notes" name="d3[recall_parts_notes]" value="<%= car.d3 ? car.d3.recall_parts_notes : '' %>" placeholder="Notes or more info">
-                </div>
-
-                <!-- Stop parts in shipping department -->
-                <div>
-                    <label for="shipping_department_notes">Stop Parts in Shipping Department:</label>
-                    <input type="text" id="shipping_department_notes" name="d3[shipping_department_notes]" value="<%= car.d3 ? car.d3.shipping_department_notes : '' %>" placeholder="Alert PC Department, Alert GLovis, more details">
-                </div>
-
-                <!-- Isolate parts in stock -->
-                <div>
-                    <label for="isolate_parts">Isolate Parts in Stock:</label>
-                    <input type="text" id="isolate_parts" name="d3[isolate_parts]" value="<%= car.d3 ? car.d3.isolate_parts : '' %>" placeholder="Add details">
-                </div>
-
-                <!-- Issue Alerted to Final Inspection -->
-                <div>
-                    <label for="final_inspection_notes">Issue Alerted to Final Inspection:</label>
-                    <input type="text" id="final_inspection_notes" name="d3[final_inspection_notes]" value="<%= car.d3 ? car.d3.final_inspection_notes : '' %>" placeholder="More info">
-                </div>
-
-                <!-- Quarantine between root cause area and final inspection -->
-                <div>
-                    <label for="quarantine_notes">Quarantine Between Root Cause Area and Final Inspection:</label>
-                    <input type="text" id="quarantine_notes" name="d3[quarantine_notes]" value="<%= car.d3 ? car.d3.quarantine_notes : '' %>" placeholder="More detail">
-                </div>
-
-                <!-- Sort - Part Sort/Yard Sweep -->
-                <div>
-                    <label for="sort_notes">Sort - Part Sort / Yard Sweep:</label>
-                    <input type="text" id="sort_notes" name="d3[sort_notes]" value="<%= car.d3 ? car.d3.sort_notes : '' %>" placeholder="More detail">
-                </div>
-
-                <!-- Additional Fields: Number of Parts Sorted and Vehicles Sorted -->
-                <div>
-                    <h3>Number of Parts Sorted</h3>
-                    <label for="parts_sorted_qty">Qty:</label>
-                    <input type="number" id="parts_sorted_qty" name="d3[parts_sorted_qty]" value="<%= car.d3 ? car.d3.parts_sorted_qty : '' %>">
-
-                    <label for="parts_date_of_check">Date of Check:</label>
-                    <input type="date" id="parts_date_of_check" name="d3[parts_date_of_check]" value="<%= car.d3 ? car.d3.parts_date_of_check : '' %>">
-
-                    <label for="ok_parts_qty">Number of OK Parts (Qty):</label>
-                    <input type="number" id="ok_parts_qty" name="d3[ok_parts_qty]" value="<%= car.d3 ? car.d3.ok_parts_qty : '' %>">
-
-                    <label for="ng_parts_qty">Number of NG Parts (Qty):</label>
-                    <input type="number" id="ng_parts_qty" name="d3[ng_parts_qty]" value="<%= car.d3 ? car.d3.ng_parts_qty : '' %>">
-
-                    <label for="parts_note">Note:</label>
-                    <textarea id="parts_note" name="d3[parts_note]" rows="2" placeholder="Additional notes"><%= car.d3 ? car.d3.parts_note : '' %></textarea>
-                </div>
-
-                <div>
-                    <h3>Number of Vehicles Sorted</h3>
-                    <label for="vehicles_sorted_qty">Qty:</label>
-                    <input type="number" id="vehicles_sorted_qty" name="d3[vehicles_sorted_qty]" value="<%= car.d3 ? car.d3.vehicles_sorted_qty : '' %>">
-
-                    <label for="date_begin_sort">Date of Beginning of Sort:</label>
-                    <input type="date" id="date_begin_sort" name="d3[date_begin_sort]" value="<%= car.d3 ? car.d3.date_begin_sort : '' %>">
-
-                    <label for="date_end_sort">Date of Ending of Sort:</label>
-                    <input type="date" id="date_end_sort" name="d3[date_end_sort]" value="<%= car.d3 ? car.d3.date_end_sort : '' %>">
-
-                    <label for="ok_body_numbers">Number of OK Body Numbers:</label>
-                    <input type="number" id="ok_body_numbers" name="d3[ok_body_numbers]" value="<%= car.d3 ? car.d3.ok_body_numbers : '' %>">
-
-                    <label for="ng_body_numbers">Number of NG Body Numbers:</label>
-                    <input type="number" id="ng_body_numbers" name="d3[ng_body_numbers]" value="<%= car.d3 ? car.d3.ng_body_numbers : '' %>">
-
-                    <label for="vehicles_note">Note:</label>
-                    <textarea id="vehicles_note" name="d3[vehicles_note]" rows="2" placeholder="Additional notes"><%= car.d3 ? car.d3.vehicles_note : '' %></textarea>
-                </div>
-
-                <!-- Upload Sort and Yard Sweep Documents -->
-                <div>
-                    <label for="sort_docs">Upload Sort/Yard Sweep Documents:</label>
-                    <input type="file" id="sort_docs" name="sort_docs" accept=".xlsx,.xls,.csv" multiple>
-                </div>
-
-                <!-- RESULTS SECTION -->
-                <div>
-                    <label for="results">Results Section:</label>
-                    <textarea id="results" name="d3[results]" rows="4" placeholder="Specific info"><%= car.d3 ? car.d3.results : '' %></textarea>
-                </div>
-
-                <button type="submit">Submit Containment Action</button>
-            </form>
+        <!-- Part Name -->
+        <div>
+            <label for="part_name">Part Name:</label>
+            <input type="text" id="part_name" name="d2[part_name]" value="<%= car.d2 ? car.d2.part_name : '' %>" required>
         </div>
 
-        <!-- D4 Section -->
-        <div id="d4" class="section <%= car && car.d4 ? 'active' : '' %>">
-            <h2>D4: Root cause analysis</h2>
-            <form action="/submit-d4/<%= car._id %>" method="POST">
-                <!-- Add form fields related to D4 here -->
-            </form>
+        <!-- Part Number -->
+        <div>
+            <label for="part_number">Part Number:</label>
+            <input type="text" id="part_number" name="d2[part_number]" value="<%= car.d2 ? car.d2.part_number : '' %>" required>
         </div>
 
-        <!-- D5 Section -->
-        <div id="d5" class="section <%= car && car.d5 ? 'active' : '' %>">
-            <h2>D5: Potential corrective action</h2>
-            <form action="/submit-d5/<%= car._id %>" method="POST">
-                <!-- Add form fields related to D5 here -->
-            </form>
+        <!-- Define the Problem -->
+        <div>
+            <label for="defect">Define the Problem:</label>
+            <input type="text" id="defect" name="d2[defect]" value="<%= car.d2 ? car.d2.defect : '' %>" required>
         </div>
 
-        <!-- D6 Section -->
-        <div id="d6" class="section <%= car && car.d6 ? 'active' : '' %>">
-            <h2>D6: Implement corrective action</h2>
-            <form action="/submit-d6/<%= car._id %>" method="POST">
-                <!-- Add form fields related to D6 here -->
-            </form>
+        <!-- What (Green Y/Response/Output) -->
+        <div>
+            <label for="green_y">What (Green Y/Response/Output) ex.  What the customer sees:</label>
+            <input type="text" id="green_y" name="d2[green_y]" value="<%= car.d2 ? car.d2.green_y : '' %>" required>
+            <p style="font-size: 12px; color: gray;">
+                The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
+            </p>
         </div>
 
-        <!-- D7 Section -->
-        <div id="d7" class="section <%= car && car.d7 ? 'active' : '' %>">
-            <h2>D7: Take preventive action</h2>
-            <form action="/submit-d7/<%= car._id %>" method="POST">
-                <!-- Add form fields related to D7 here -->
-            </form>
+        <!-- When (Problem First Seen) -->
+        <div>
+            <label for="problem_seen_date">When (Problem First Seen):</label>
+            <input type="date" id="problem_seen_date" name="d2[problem_seen_date]" value="<%= car.d2 ? car.d2.problem_seen_date : '' %>" required>
         </div>
 
-        <!-- D8 Section -->
-        <div id="d8" class="section <%= car && car.d8 ? 'active' : '' %>">
-            <h2>D8: Read Across & Lessons learned</h2>
-            <form action="/submit-d8/<%= car._id %>" method="POST">
-                <!-- Add form fields related to D8 here -->
-            </form>
+        <!-- When (In Product Life Cycle) -->
+        <div>
+            <label for="product_life_cycle">When (In Product Life Cycle):</label>
+            <select id="product_life_cycle" name="d2[product_life_cycle]" required>
+                <option value="DV" <%= car.d2 && car.d2.product_life_cycle === 'DV' ? 'selected' : '' %>>DV</option>
+                <option value="PV" <%= car.d2 && car.d2.product_life_cycle === 'PV' ? 'selected' : '' %>>PV</option>
+                <option value="Prototype" <%= car.d2 && car.d2.product_life_cycle === 'Prototype' ? 'selected' : '' %>>Prototype</option>
+                <option value="T1" <%= car.d2 && car.d2.product_life_cycle === 'T1' ? 'selected' : '' %>>T1</option>
+                <option value="T2" <%= car.d2 && car.d2.product_life_cycle === 'T2' ? 'selected' : '' %>>T2</option>
+                <option value="Production" <%= car.d2 && car.d2.product_life_cycle === 'Production' ? 'selected' : '' %>>Production</option>
+                <option value="Other" <%= car.d2 && car.d2.product_life_cycle === 'Other' ? 'selected' : '' %>>Other</option>
+            </select>
         </div>
+
+        <!-- Where (In Vehicle) -->
+        <div>
+            <label for="in_vehicle">Where (In Vehicle):</label>
+            <input type="text" id="in_vehicle" name="d2[in_vehicle]" value="<%= car.d2 ? car.d2.in_vehicle : '' %>" required>
+        </div>
+
+        <!-- Where (Side of Vehicle) -->
+        <div>
+            <label for="side_of_vehicle">Where (Side of Vehicle):</label>
+            <select id="side_of_vehicle" name="d2[side_of_vehicle]" required>
+                <option value="Left Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Left Hand' ? 'selected' : '' %>>Left Hand</option>
+                <option value="Right Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Right Hand' ? 'selected' : '' %>>Right Hand</option>
+                <option value="Both" <%= car.d2 && car.d2.side_of_vehicle === 'Both' ? 'selected' : '' %>>Both Sides</option>
+                <option value="Other" <%= car.d2 && car.d2.side_of_vehicle === 'Other' ? 'selected' : '' %>>Other</option>
+                <option value="Fore" <%= car.d2 && car.d2.side_of_vehicle === 'Fore' ? 'selected' : '' %>>Fore</option>
+                <option value="Aft" <%= car.d2 && car.d2.side_of_vehicle === 'Aft' ? 'selected' : '' %>>Aft</option>
+                <option value="+H" <%= car.d2 && car.d2.side_of_vehicle === '+H' ? 'selected' : '' %>>+H</option>
+                <option value="-H" <%= car.d2 && car.d2.side_of_vehicle === '-H' ? 'selected' : '' %>>-H</option>
+            </select>
+        </div>
+
+        <!-- Where (Additional) -->
+        <div>
+            <label for="additional_where">Where (Additional):</label>
+            <input type="text" id="additional_where" name="d2[additional_where]" value="<%= car.d2 ? car.d2.additional_where : '' %>">
+        </div>
+
+        <button type="submit">Submit Problem Description</button>
+    </form>
+</div>
+
+<!-- D3 Section: Containment Action -->
+<div id="d3" class="section <%= car && car.d3 ? 'active' : '' %>">
+    <h2>D3: Containment Action</h2>
+    <form action="/submit-d3/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Recall Parts that Recently Shipped -->
+        <div>
+            <label for="recall_parts_notes">Recall Parts that Recently Shipped:</label>
+            <input type="text" id="recall_parts_notes" name="d3[recall_parts_notes]" value="<%= car.d3 ? car.d3.recall_parts_notes : '' %>" placeholder="Notes or more info">
+        </div>
+
+        <!-- Stop parts in shipping department -->
+        <div>
+            <label for="shipping_department_notes">Stop Parts in Shipping Department:</label>
+            <input type="text" id="shipping_department_notes" name="d3[shipping_department_notes]" value="<%= car.d3 ? car.d3.shipping_department_notes : '' %>" placeholder="Alert PC Department, Alert GLovis, more details">
+        </div>
+
+        <!-- Isolate parts in stock -->
+        <div>
+            <label for="isolate_parts">Isolate Parts in Stock:</label>
+            <input type="text" id="isolate_parts" name="d3[isolate_parts]" value="<%= car.d3 ? car.d3.isolate_parts : '' %>" placeholder="Add details">
+        </div>
+
+        <!-- Issue Alerted to Final Inspection -->
+        <div>
+            <label for="final_inspection_notes">Issue Alerted to Final Inspection:</label>
+            <input type="text" id="final_inspection_notes" name="d3[final_inspection_notes]" value="<%= car.d3 ? car.d3.final_inspection_notes : '' %>" placeholder="More info">
+        </div>
+
+        <!-- Quarantine between root cause area and final inspection -->
+        <div>
+            <label for="quarantine_notes">Quarantine Between Root Cause Area and Final Inspection:</label>
+            <input type="text" id="quarantine_notes" name="d3[quarantine_notes]" value="<%= car.d3 ? car.d3.quarantine_notes : '' %>" placeholder="More detail">
+        </div>
+
+        <!-- Sort - Part Sort/Yard Sweep -->
+        <div>
+            <label for="sort_notes">Sort - Part Sort / Yard Sweep:</label>
+            <input type="text" id="sort_notes" name="d3[sort_notes]" value="<%= car.d3 ? car.d3.sort_notes : '' %>" placeholder="More detail">
+        </div>
+
+        <!-- Additional Fields: Number of Parts Sorted and Vehicles Sorted -->
+        <div>
+            <h3>Number of Parts Sorted</h3>
+            <label for="parts_sorted_qty">Qty:</label>
+            <input type="number" id="parts_sorted_qty" name="d3[parts_sorted_qty]" value="<%= car.d3 ? car.d3.parts_sorted_qty : '' %>">
+
+            <label for="parts_date_of_check">Date of Check:</label>
+            <input type="date" id="parts_date_of_check" name="d3[parts_date_of_check]" value="<%= car.d3 ? car.d3.parts_date_of_check : '' %>">
+
+            <label for="ok_parts_qty">Number of OK Parts (Qty):</label>
+            <input type="number" id="ok_parts_qty" name="d3[ok_parts_qty]" value="<%= car.d3 ? car.d3.ok_parts_qty : '' %>">
+
+            <label for="ng_parts_qty">Number of NG Parts (Qty):</label>
+            <input type="number" id="ng_parts_qty" name="d3[ng_parts_qty]" value="<%= car.d3 ? car.d3.ng_parts_qty : '' %>">
+
+            <label for="parts_note">Note:</label>
+            <textarea id="parts_note" name="d3[parts_note]" rows="2" placeholder="Additional notes"><%= car.d3 ? car.d3.parts_note : '' %></textarea>
+        </div>
+
+        <div>
+            <h3>Number of Vehicles Sorted</h3>
+            <label for="vehicles_sorted_qty">Qty:</label>
+            <input type="number" id="vehicles_sorted_qty" name="d3[vehicles_sorted_qty]" value="<%= car.d3 ? car.d3.vehicles_sorted_qty : '' %>">
+
+            <label for="date_begin_sort">Date of Beginning of Sort:</label>
+            <input type="date" id="date_begin_sort" name="d3[date_begin_sort]" value="<%= car.d3 ? car.d3.date_begin_sort : '' %>">
+
+            <label for="date_end_sort">Date of Ending of Sort:</label>
+            <input type="date" id="date_end_sort" name="d3[date_end_sort]" value="<%= car.d3 ? car.d3.date_end_sort : '' %>">
+
+            <label for="ok_body_numbers">Number of OK Body Numbers:</label>
+            <input type="number" id="ok_body_numbers" name="d3[ok_body_numbers]" value="<%= car.d3 ? car.d3.ok_body_numbers : '' %>">
+
+            <label for="ng_body_numbers">Number of NG Body Numbers:</label>
+            <input type="number" id="ng_body_numbers" name="d3[ng_body_numbers]" value="<%= car.d3 ? car.d3.ng_body_numbers : '' %>">
+
+            <label for="vehicles_note">Note:</label>
+            <textarea id="vehicles_note" name="d3[vehicles_note]" rows="2" placeholder="Additional notes"><%= car.d3 ? car.d3.vehicles_note : '' %></textarea>
+        </div>
+
+        <!-- Upload Sort and Yard Sweep Documents -->
+        <div>
+            <label for="sort_docs">Upload Sort/Yard Sweep Documents:</label>
+            <input type="file" id="sort_docs" name="sort_docs" accept=".xlsx,.xls,.csv" multiple>
+        </div>
+
+        <!-- PDR Needed -->
+        <div>
+            <label for="d3_pdr_needed">PDR Needed:</label>
+            <select name="d3[pdr_needed]" required>
+                <option value="Yes" <%= car.d3 && car.d3.pdr_needed === 'Yes' ? 'selected' : '' %>>Yes</option>
+                <option value="No" <%= car.d3 && car.d3.pdr_needed === 'No' ? 'selected' : '' %>>No</option>
+            </select>
+        </div>
+
+        <!-- PDR Number -->
+        <div>
+            <label for="d3_pdr_number">PDR Number (if applicable):</label>
+            <input type="text" name="d3[pdr_number]" value="<%= car.d3 ? car.d3.pdr_number : '' %>">
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <div>
+            <label for="results">Results Section:</label>
+            <textarea id="results" name="d3[results]" rows="4" placeholder="Specific info"><%= car.d3 ? car.d3.results : '' %></textarea>
+        </div>
+
+        <button type="submit">Submit Containment Action</button>
+    </form>
+</div>
+
+
+<!-- D4 Section: Root Cause Analysis -->
+<div id="d4" class="section <%= car && car.d4 ? 'active' : '' %>">
+    <h2>D4: Root Cause Analysis</h2>
+    <form action="/submit-d4/<%= car._id %>" method="POST">
+        
+        <!-- Process Confirmation -->
+        <h3>Process Confirmation</h3>
+        
+        <div>
+            <label for="d4_correct_process">Was the correct process followed (confirm):</label>
+            <select name="d4[correct_process]" required>
+                <option value="Yes" <%= car.d4 && car.d4.correct_process === 'Yes' ? 'selected' : '' %>>Yes</option>
+                <option value="No" <%= car.d4 && car.d4.correct_process === 'No' ? 'selected' : '' %>>No</option>
+            </select>
+        </div>
+        <div>
+            <label for="d4_correct_process_info">Additional Info:</label>
+            <textarea name="d4[correct_process_info]" rows="3" placeholder="Enter additional information if needed"><%= car.d4 ? car.d4.correct_process_info : '' %></textarea>
+        </div>
+
+        <div>
+            <label for="d4_correct_tool">Was the correct tool used in the process (confirm):</label>
+            <select name="d4[correct_tool]" required>
+                <option value="Yes" <%= car.d4 && car.d4.correct_tool === 'Yes' ? 'selected' : '' %>>Yes</option>
+                <option value="No" <%= car.d4 && car.d4.correct_tool === 'No' ? 'selected' : '' %>>No</option>
+            </select>
+        </div>
+        <div>
+            <label for="d4_correct_tool_info">Additional Info:</label>
+            <textarea name="d4[correct_tool_info]" rows="3" placeholder="Enter additional information if needed"><%= car.d4 ? car.d4.correct_tool_info : '' %></textarea>
+        </div>
+
+        <div>
+            <label for="d4_correct_part_number">Was the correct Part Number used in the process (confirm):</label>
+            <select name="d4[correct_part_number]" required>
+                <option value="Yes" <%= car.d4 && car.d4.correct_part_number === 'Yes' ? 'selected' : '' %>>Yes</option>
+                <option value="No" <%= car.d4 && car.d4.correct_part_number === 'No' ? 'selected' : '' %>>No</option>
+            </select>
+        </div>
+        <div>
+            <label for="d4_correct_part_number_info">Additional Info:</label>
+            <textarea name="d4[correct_part_number_info]" rows="3" placeholder="Enter additional information if needed"><%= car.d4 ? car.d4.correct_part_number_info : '' %></textarea>
+        </div>
+
+        <!-- Continue with further problem-solving below -->
+
+        <!-- Fish Bone Diagram -->
+        <h3>Fish Bone Diagram</h3>
+        
+        <!-- People Section -->
+        <div id="people-section">
+            <label for="d4_people">People:</label>
+            <div>
+                <input type="text" name="d4[people][]" placeholder="Enter People-related cause">
+                <button type="button" onclick="addInput('people-section', 'd4[people][]')">Add Another People Item</button>
+            </div>
+        </div>
+
+        <!-- Material Section -->
+        <div id="material-section">
+            <label for="d4_material">Material:</label>
+            <div>
+                <input type="text" name="d4[material][]" placeholder="Enter Material-related cause">
+                <button type="button" onclick="addInput('material-section', 'd4[material][]')">Add Another Material Item</button>
+            </div>
+        </div>
+
+        <!-- Method Section -->
+        <div id="method-section">
+            <label for="d4_method">Method:</label>
+            <div>
+                <input type="text" name="d4[method][]" placeholder="Enter Method-related cause">
+                <button type="button" onclick="addInput('method-section', 'd4[method][]')">Add Another Method Item</button>
+            </div>
+        </div>
+
+        <!-- Machine Section -->
+        <div id="machine-section">
+            <label for="d4_machine">Machine:</label>
+            <div>
+                <input type="text" name="d4[machine][]" placeholder="Enter Machine-related cause">
+                <button type="button" onclick="addInput('machine-section', 'd4[machine][]')">Add Another Machine Item</button>
+            </div>
+        </div>
+
+        <!-- 5 Why Analysis -->
+        <h3>5 Why Analysis</h3>
+        <table>
+            <tr>
+                <th>Why</th>
+                <th>Cause</th>
+            </tr>
+            <tr>
+                <td>Why 1</td>
+                <td><input type="text" name="d4[why1]" style="width: 100%;" value="<%= car.d4 ? car.d4.why1 : '' %>"></td>
+            </tr>
+            <tr>
+                <td>Why 2</td>
+                <td><input type="text" name="d4[why2]" style="width: 100%;" value="<%= car.d4 ? car.d4.why2 : '' %>"></td>
+            </tr>
+            <tr>
+                <td>Why 3</td>
+                <td><input type="text" name="d4[why3]" style="width: 100%;" value="<%= car.d4 ? car.d4.why3 : '' %>"></td>
+            </tr>
+            <tr>
+                <td>Why 4</td>
+                <td><input type="text" name="d4[why4]" style="width: 100%;" value="<%= car.d4 ? car.d4.why4 : '' %>"></td>
+            </tr>
+            <tr>
+                <td>Why 5</td>
+                <td><input type="text" name="d4[why5]" style="width: 100%;" value="<%= car.d4 ? car.d4.why5 : '' %>"></td>
+            </tr>
+        </table>
+
+        <!-- Kepner Tregoe Questions -->
+        <h3>Kepner Tregoe Questions</h3>
+        <div>
+            <label for="d4_kt_eo">Changes via EO to the parts?:</label>
+            <input type="text" name="d4[kt_eo]" value="<%= car.d4 ? car.d4.kt_eo : '' %>">
+        </div>
+        <div>
+            <label for="d4_kt_pdr">Changes via PDR to the parts?:</label>
+            <input type="text" name="d4[kt_pdr]" value="<%= car.d4 ? car.d4.kt_pdr : '' %>">
+        </div>
+        <div>
+            <label for="d4_kt_4m">Changes via 4M to the parts?:</label>
+            <input type="text" name="d4[kt_4m]" value="<%= car.d4 ? car.d4.kt_4m : '' %>">
+        </div>
+        <div>
+            <label for="d4_kt_sw">Changes via Software to the parts?:</label>
+            <input type="text" name="d4[kt_sw]" value="<%= car.d4 ? car.d4.kt_sw : '' %>">
+        </div>
+
+        <!-- Trend and Extent -->
+        <h3>Trend and Extent</h3>
+        <div>
+            <label for="d4_trend">Trend?:</label>
+            <select name="d4[trend]">
+                <option value="Stable" <%= car.d4 && car.d4.trend === 'Stable' ? 'selected' : '' %>>Stable</option>
+                <option value="Increasing" <%= car.d4 && car.d4.trend === 'Increasing' ? 'selected' : '' %>>Increasing</option>
+                <option value="Decreasing" <%= car.d4 && car.d4.trend === 'Decreasing' ? 'selected' : '' %>>Decreasing</option>
+            </select>
+        </div>
+        <div>
+            <label for="d4_extent">Extent?:</label>
+            <select name="d4[extent]">
+                <option value="Spike" <%= car.d4 && car.d4.extent === 'Spike' ? 'selected' : '' %>>Spike</option>
+                <option value="Sporadic" <%= car.d4 && car.d4.extent === 'Sporadic' ? 'selected' : '' %>>Sporadic</option>
+                <option value="Cycles" <%= car.d4 && car.d4.extent === 'Cycles' ? 'selected' : '' %>>Cycles</option>
+            </select>
+        </div>
+
+        <button type="submit">Submit Root Cause Analysis</button>
+    </form>
+</div>
+
+<script>
+    function addInput(sectionId, name) {
+        const section = document.getElementById(sectionId);
+        const inputDiv = document.createElement('div');
+        inputDiv.innerHTML = `<input type="text" name="${name}" placeholder="Enter another cause">`;
+        section.appendChild(inputDiv);
+    }
+</script>
+
+
+<!-- D5 Section: Potential Corrective Action -->
+<div id="d5" class="section <%= car && car.d5 ? 'active' : '' %>">
+    <h2>D5: Potential Corrective Action</h2>
+
+    <!-- Note -->
+    <p style="font-size: 10px;">Will the Corrective Action(s) solve the problem for the customer?</p>
+
+    <form action="/submit-d5/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Who is the customer? -->
+        <div>
+            <label for="d5_customer">Who is the customer?:</label>
+            <input type="text" id="d5_customer" name="d5[customer]" value="<%= car.d5 ? car.d5.customer : '' %>">
+        </div>
+
+        <!-- Capability Study -->
+        <div>
+            <label for="d5_capability_study">Capability Study:</label>
+            <input type="file" id="d5_capability_study" name="d5_capability_study_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Control Chart -->
+        <div>
+            <label for="d5_control_chart">Control Chart:</label>
+            <input type="file" id="d5_control_chart" name="d5_control_chart_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Gage R&R -->
+        <div>
+            <label for="d5_gage_rr">Gage R&R:</label>
+            <input type="file" id="d5_gage_rr" name="d5_gage_rr_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Risk Assessment -->
+        <div>
+            <label for="d5_risk_assessment">Risk Assessment:</label>
+            <input type="file" id="d5_risk_assessment" name="d5_risk_assessment_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Any major clues in the data uploaded? -->
+        <div>
+            <label for="d5_clues_in_data">Any major clues in the data uploaded?:</label>
+            <input type="text" id="d5_clues_in_data" name="d5[clues_in_data]" value="<%= car.d5 ? car.d5.clues_in_data : '' %>">
+        </div>
+
+        <!-- What control factors have the most influence on the Response? -->
+        <div>
+            <label for="d5_control_factors_influence">What control factors have the most influence on the Response?:</label>
+            <input type="text" id="d5_control_factors_influence" name="d5[control_factors_influence]" value="<%= car.d5 ? car.d5.control_factors_influence : '' %>">
+        </div>
+
+        <!-- Any other control factors have influence on the Response? -->
+        <div>
+            <label for="d5_other_control_factors">Any other control factors have influence on the Response?:</label>
+            <input type="text" id="d5_other_control_factors" name="d5[other_control_factors]" value="<%= car.d5 ? car.d5.other_control_factors : '' %>">
+        </div>
+
+        <!-- What Noise factors have an influence? -->
+        <div>
+            <label for="d5_noise_factors">What Noise factors have an influence? (e.g., temperature, time):</label>
+            <input type="text" id="d5_noise_factors" name="d5[noise_factors]" value="<%= car.d5 ? car.d5.noise_factors : '' %>">
+        </div>
+
+        <!-- Corrective Actions -->
+        <div>
+            <label for="d5_corrective_action">Corrective Action:</label>
+            <input type="text" id="d5_corrective_action" name="d5[corrective_action]" value="<%= car.d5 ? car.d5.corrective_action : '' %>">
+        </div>
+
+        <!-- Potential 2nd Corrective Action -->
+        <div>
+            <label for="d5_corrective_action_2">Potential 2nd Corrective Action:</label>
+            <input type="text" id="d5_corrective_action_2" name="d5[corrective_action_2]" value="<%= car.d5 ? car.d5.corrective_action_2 : '' %>">
+        </div>
+
+        <!-- Potential 3rd Corrective Action -->
+        <div>
+            <label for="d5_corrective_action_3">Potential 3rd Corrective Action:</label>
+            <input type="text" id="d5_corrective_action_3" name="d5[corrective_action_3]" value="<%= car.d5 ? car.d5.corrective_action_3 : '' %>">
+        </div>
+
+        <button type="submit">Submit Corrective Action</button>
+    </form>
+</div>
+
+<!-- D6 Section: Implement Corrective Action -->
+<div id="d6" class="section <%= car && car.d6 ? 'active' : '' %>">
+    <h2>D6: Implement Corrective Action</h2>
+    <form action="/submit-d6/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Describe the Trial -->
+        <div>
+            <label for="d6_trial_description">Describe the Trial:</label>
+            <textarea name="d6[trial_description]" id="d6_trial_description" rows="3" placeholder="Describe the trial"><%= car.d6 ? car.d6.trial_description : '' %></textarea>
+        </div>
+
+        <!-- How has the improvement affected FTTQ? -->
+        <div>
+            <label for="d6_fttq_effect">How has the improvement affected FTTQ?:</label>
+            <textarea name="d6[fttq_effect]" id="d6_fttq_effect" rows="3" placeholder="Describe the effect on FTTQ, if applicable"><%= car.d6 ? car.d6.fttq_effect : '' %></textarea>
+        </div>
+
+        <!-- How has the improvement affected Dealer Claims or 3M? -->
+        <div>
+            <label for="d6_dealer_claims_effect">How has the improvement affected Dealer Claims or 3M?:</label>
+            <textarea name="d6[dealer_claims_effect]" id="d6_dealer_claims_effect" rows="3" placeholder="Describe the effect on Dealer Claims or 3M, if applicable"><%= car.d6 ? car.d6.dealer_claims_effect : '' %></textarea>
+        </div>
+
+        <!-- Other KPIs -->
+        <div>
+            <label for="d6_other_kpis">Other KPIs:</label>
+            <textarea name="d6[other_kpis]" id="d6_other_kpis" rows="3" placeholder="Enter other KPIs, if applicable"><%= car.d6 ? car.d6.other_kpis : '' %></textarea>
+        </div>
+
+        <!-- Any issues with corrective action? -->
+        <div>
+            <label for="d6_corrective_action_issues">Any issues with corrective action?:</label>
+            <textarea name="d6[corrective_action_issues]" id="d6_corrective_action_issues" rows="3" placeholder="Describe any issues with corrective action"><%= car.d6 ? car.d6.corrective_action_issues : '' %></textarea>
+        </div>
+
+        <!-- Upload Control Plans -->
+        <div>
+            <label for="d6_control_plans">Upload Control Plans:</label>
+            <input type="file" id="d6_control_plans" name="d6_control_plans_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Upload FMEAs -->
+        <div>
+            <label for="d6_fmeas">Upload FMEAs:</label>
+            <input type="file" id="d6_fmeas" name="d6_fmeas_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Poka-Yoke (Any error proofing opportunities?) -->
+        <div>
+            <label for="d6_poka_yoke">Poka-Yoke (Any error proofing opportunities?):</label>
+            <textarea name="d6[poka_yoke]" id="d6_poka_yoke" rows="3" placeholder="Describe any error proofing opportunities"><%= car.d6 ? car.d6.poka_yoke : '' %></textarea>
+        </div>
+
+        <!-- Production Instructions Needed -->
+        <div>
+            <label for="d6_production_instructions_needed">Production Instructions Needed:</label>
+            <select name="d6[production_instructions_needed]" id="d6_production_instructions_needed">
+                <option value="Yes" <%= car.d6 && car.d6.production_instructions_needed === 'Yes' ? 'selected' : '' %>>Yes</option>
+                <option value="No" <%= car.d6 && car.d6.production_instructions_needed === 'No' ? 'selected' : '' %>>No</option>
+            </select>
+        </div>
+
+        <!-- Production Instructions Number -->
+        <div>
+            <label for="d6_production_instructions_number">Production Instructions Number:</label>
+            <input type="text" id="d6_production_instructions_number" name="d6[production_instructions_number]" value="<%= car.d6 ? car.d6.production_instructions_number : '' %>">
+        </div>
+
+        <!-- Production Instructions Trial Date -->
+        <div>
+            <label for="d6_production_instructions_trial_date">Production Instructions Trial Date:</label>
+            <input type="date" id="d6_production_instructions_trial_date" name="d6[production_instructions_trial_date]" value="<%= car.d6 ? car.d6.production_instructions_trial_date : '' %>">
+        </div>
+
+        <button type="submit">Submit Corrective Action Implementation</button>
+    </form>
+</div>
+
+
+<!-- D7 Section: Take Preventive Action -->
+<div id="d7" class="section <%= car && car.d7 ? 'active' : '' %>">
+    <h2>D7: Take Preventive Action</h2>
+    <form action="/submit-d7/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <!-- What documents need to be updated? -->
+        <div>
+            <label for="d7_documents_update">What documents need to be updated?:</label>
+            <textarea name="d7[documents_update]" id="d7_documents_update" rows="3" placeholder="List the documents that need to be updated"><%= car.d7 ? car.d7.documents_update : '' %></textarea>
+        </div>
+
+        <!-- Upload DFMEA -->
+        <div>
+            <label for="d7_dfmea">Upload DFMEA:</label>
+            <input type="file" id="d7_dfmea" name="dfmea_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Upload PFMEA -->
+        <div>
+            <label for="d7_pfmea">Upload PFMEA:</label>
+            <input type="file" id="d7_pfmea" name="pfmea_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Upload SWIS -->
+        <div>
+            <label for="d7_swis">Upload SWIS:</label>
+            <input type="file" id="d7_swis" name="swis_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Preventive Actions -->
+        <div>
+            <label for="d7_preventive_actions">Describe Preventive Actions:</label>
+            <textarea name="d7[preventive_actions]" id="d7_preventive_actions" rows="3" placeholder="Describe the preventive actions taken"><%= car.d7 ? car.d7.preventive_actions : '' %></textarea>
+        </div>
+
+        <button type="submit">Submit Preventive Actions</button>
+    </form>
+</div>
+
+<!-- D8 Section: Read Across & Lessons Learned -->
+<div id="d8" class="section <%= car && car.d8 ? 'active' : '' %>">
+    <h2>D8: Read Across & Lessons Learned</h2>
+    <form action="/submit-d8/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Read Across & Lessons Learned -->
+        <div>
+            <label for="d8_read_across">Read Across & Lessons Learned:</label>
+            <textarea name="d8[read_across]" id="d8_read_across" rows="5" placeholder="Enter lessons learned and read across details"><%= car.d8 ? car.d8.read_across : '' %></textarea>
+        </div>
+
+        <!-- Other Vehicles Potentially Affected -->
+        <div>
+            <label for="d8_other_vehicles_affected">Other Vehicles Potentially Affected?:</label>
+            <select name="d8[other_vehicles_affected]" id="d8_other_vehicles_affected">
+                <option value="NQ5a" <%= car.d8 && car.d8.other_vehicles_affected === 'NQ5a' ? 'selected' : '' %>>NQ5a</option>
+                <option value="MQ4a" <%= car.d8 && car.d8.other_vehicles_affected === 'MQ4a' ? 'selected' : '' %>>MQ4a</option>
+                <option value="ON" <%= car.d8 && car.d8.other_vehicles_affected === 'ON' ? 'selected' : '' %>>ON</option>
+                <option value="MV1A" <%= car.d8 && car.d8.other_vehicles_affected === 'MV1A' ? 'selected' : '' %>>MV1A</option>
+                <option value="CV1A" <%= car.d8 && car.d8.other_vehicles_affected === 'CV1A' ? 'selected' : '' %>>CV1A</option>
+                <option value="Other" <%= car.d8 && car.d8.other_vehicles_affected === 'Other' ? 'selected' : '' %>>Other</option>
+            </select>
+            <button type="button" onclick="addVehicle()">Add Another Vehicle</button>
+            <div id="additional_vehicles"></div>
+        </div>
+
+        <!-- Previous AMPs -->
+        <div>
+            <label for="d8_previous_amps">Previous AMPs:</label>
+            <input type="file" id="d8_previous_amps" name="d8_previous_amps_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <!-- Previous Line Call Sheets -->
+        <div>
+            <label for="d8_previous_line_call_sheets">Previous Line Call Sheets:</label>
+            <input type="file" id="d8_previous_line_call_sheets" name="d8_previous_line_call_sheets_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
+        </div>
+
+        <button type="submit">Submit Lessons Learned</button>
+    </form>
+</div>
+
+<script>
+    let vehicleCount = 1;
+    function addVehicle() {
+        if (vehicleCount < 5) { // Limit to 5 additional vehicles
+            vehicleCount++;
+            const div = document.createElement('div');
+            div.innerHTML = `<label for="additional_vehicle_${vehicleCount}">Additional Vehicle ${vehicleCount}:</label>
+                             <select name="d8[additional_vehicle_${vehicleCount}]" id="additional_vehicle_${vehicleCount}">
+                                 <option value="NQ5a">NQ5a</option>
+                                 <option value="MQ4a">MQ4a</option>
+                                 <option value="ON">ON</option>
+                                 <option value="MV1A">MV1A</option>
+                                 <option value="CV1A">CV1A</option>
+                                 <option value="Other">Other</option>
+                             </select>`;
+            document.getElementById('additional_vehicles').appendChild(div);
+        } else {
+            alert('You can only add up to 5 additional vehicles.');
+        }
+    }
+</script>
+
+
     </div>
 
     <script>
@@ -405,7 +810,7 @@
                 reader.onload = function(e) {
                     const img = document.createElement('img');
                     img.src = e.target.result;
-                    img.style.width = '150px';
+                    img.style.width = '150px';form
                     img.style.height = '150px';
                     previewContainer.appendChild(img);
                 };
@@ -426,5 +831,6 @@
             }
         }
     </script>
+<input type="hidden" name="debug" value="Debugging Data">
 </body>
 </html>

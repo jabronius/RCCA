@@ -1,80 +1,69 @@
-<!-- views/dashboard.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RCCA Dashboard</title>
+    <title>Dashboard</title>
     <style>
         body {
-            background-color: lightblue;
-            font-family: 'Arial', sans-serif;
-            font-size: 16px;
-            color: #333;
-            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: lightgray;
             padding: 20px;
         }
-        a {
+        .header {
+            margin-bottom: 20px;
+        }
+        .header a {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
             text-decoration: none;
-            color: #007BFF;
+            border-radius: 5px;
         }
-        a:hover {
-            text-decoration: underline;
+        .header a:hover {
+            background-color: #0056b3;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
         }
-        .car-list {
-            margin-top: 20px;
-        }
-        .car-item {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-        }
-        .car-item:last-child {
-            border-bottom: none;
-        }
-        .car-item span {
-            font-weight: bold;
-        }
-        .create-link {
-            display: block;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="/create" class="create-link">Create Issue - New CAR Entry</a>
-        <h1>RCCA Dashboard</h1>
-        <div class="car-list">
-            <% if (openCars.length > 0) { %>
-                <% openCars.forEach(car => { %>
-                    <div class="car-item">
-                        <span>CAR#:</span> 
-                        <a href="/create/<%= car._id %>">
-                            <%= car.carNumber %>
-                        </a> | 
-                        <span>Status:</span> <%= car.status %> | 
-                        <span>Champion:</span> <%= car.d1.root_cause_champion %> | 
-                        <span>Defect:</span> <%= car.d2 && car.d2.defect ? car.d2.defect : 'N/A' %>
-                    </div>
-                <% }) %>
-            <% } else { %>
-                <p>No open CARs at the moment.</p>
-            <% } %>
-        </div>
+    <div class="header">
+        <a href="/create">Create Issue - New CAR Entry</a>
     </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>CAR#</th>
+                <th>Status</th>
+                <th>Champion</th>
+                <th>Defect</th>
+                <th>Date Created</th>
+                <th>Vehicle Model</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% openCars.forEach(car => { %>
+                <tr>
+                    <td><a href="/create/<%= car._id %>">CAR#: <%= car.carNumber %></a></td>
+                    <td>Status: <%= car.status %></td>
+                    <td>Champion: <%= car.d1.root_cause_champion %></td>
+                    <td>Defect: N/A</td>
+                    <td>Date Created: <%= car.createdAt.toDateString() %></td>
+                    <td>Vehicle Model: <%= car.d2 ? car.d2.vehicle_model : 'N/A' %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
 </body>
 </html>
