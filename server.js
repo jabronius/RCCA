@@ -135,19 +135,13 @@ app.post('/submit-d1', async (req, res) => {
 // Route to submit D2 section
 app.post('/submit-d2/:id', async (req, res) => {
     try {
-        console.log("Received data:", req.body); // Log the received data to check what's coming in
-        if (!req.body.d2) {
-            console.error('req.body.d2 is undefined');
-            return res.status(400).send("Error: No data received for D2 section.");
-        }
-
-        // Find the CAR by ID
         const car = await Issue.findById(req.params.id);
+
         if (!car) {
             return res.status(404).send('CAR not found');
         }
 
-        // Update the D2 section with received data
+        // Update the D2 fields with the data from the form
         car.d2 = {
             vehicle_model: req.body.d2.vehicle_model,
             process: req.body.d2.process,
@@ -163,14 +157,17 @@ app.post('/submit-d2/:id', async (req, res) => {
             additional_where: req.body.d2.additional_where,
         };
 
-        // Save the updated CAR document
-        await car.save();
-        res.redirect(`/create/${car._id}`); // Redirect to the CAR issue page for further editing
+        await car.save(); // Save the changes to the database
+
+        // Redirect to the same CAR issue page for further editing or viewing
+        res.redirect(`/create/${car._id}`);
     } catch (err) {
         console.error('Error saving D2 data:', err);
-        res.status(500).send("An error occurred while saving the D2 data.");
+        res.status(500).send('An error occurred while saving the D2 data.');
     }
 });
+
+
 
 
 // D3 submission route with file upload handling

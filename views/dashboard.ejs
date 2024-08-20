@@ -58,7 +58,7 @@
                     <td><a href="/create/<%= car._id %>">CAR#: <%= car.carNumber %></a></td>
                     <td>Status: <%= car.status %></td>
                     <td>Champion: <%= car.d1.root_cause_champion %></td>
-                    <td>Defect: N/A</td>
+                    <td>Defect: <%= car.d2 ? car.d2.defect : 'N/A' %></td>
                     <td>Date Created: <%= car.createdAt.toDateString() %></td>
                     <td>Vehicle Model: <%= car.d2 ? car.d2.vehicle_model : 'N/A' %></td>
                 </tr>

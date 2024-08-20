@@ -146,12 +146,10 @@
         </div>
 
    <!-- D2: Problem Description (previously Define the Problem) -->
-<div id="d2" class="section <%= car && car.d2 ? 'active' : '' %>">
-    <h2>D2: Problem description</h2>
-    <form action="/submit-d2/<%= car._id %>" method="POST" enctype="multipart/form-data">
-        <!-- Add other fields as discussed -->
-        <input type="hidden" name="debug" value="D2 form submitted">
-    </form>
+   <div id="d2" class="section <%= car && car.d2 ? 'active' : '' %>">
+    <h2>D2: Problem Description</h2>
+    <form action="/submit-d2/<%= car._id %>" method="POST">
+        
         <!-- Vehicle Model -->
         <div>
             <label for="vehicle_model">Vehicle Model:</label>
@@ -183,7 +181,7 @@
 
         <!-- What (Green Y/Response/Output) -->
         <div>
-            <label for="green_y">What (Green Y/Response/Output) ex.  What the customer sees:</label>
+            <label for="green_y">What (Green Y/Response/Output):</label>
             <input type="text" id="green_y" name="d2[green_y]" value="<%= car.d2 ? car.d2.green_y : '' %>" required>
             <p style="font-size: 12px; color: gray;">
                 The Green Y’s have an accounting metric (i.e., PPH, IPTV, PPM) or an engineering metric (i.e., mm, dB) associated to them.
@@ -222,8 +220,6 @@
             <select id="side_of_vehicle" name="d2[side_of_vehicle]" required>
                 <option value="Left Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Left Hand' ? 'selected' : '' %>>Left Hand</option>
                 <option value="Right Hand" <%= car.d2 && car.d2.side_of_vehicle === 'Right Hand' ? 'selected' : '' %>>Right Hand</option>
-                <option value="Both" <%= car.d2 && car.d2.side_of_vehicle === 'Both' ? 'selected' : '' %>>Both Sides</option>
-                <option value="Other" <%= car.d2 && car.d2.side_of_vehicle === 'Other' ? 'selected' : '' %>>Other</option>
                 <option value="Fore" <%= car.d2 && car.d2.side_of_vehicle === 'Fore' ? 'selected' : '' %>>Fore</option>
                 <option value="Aft" <%= car.d2 && car.d2.side_of_vehicle === 'Aft' ? 'selected' : '' %>>Aft</option>
                 <option value="+H" <%= car.d2 && car.d2.side_of_vehicle === '+H' ? 'selected' : '' %>>+H</option>
@@ -240,6 +236,7 @@
         <button type="submit">Submit Problem Description</button>
     </form>
 </div>
+
 
 <!-- D3 Section: Containment Action -->
 <div id="d3" class="section <%= car && car.d3 ? 'active' : '' %>">
