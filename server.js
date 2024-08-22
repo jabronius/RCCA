@@ -37,6 +37,16 @@ mongoose.connect('mongodb://localhost:27017/rcca')
 // Configure Multer for file uploads
 const upload = multer({ dest: 'uploads/' }); // Store files in 'uploads' directory
 
+app.post('/delete/:id', async (req, res) => {
+    try {
+        await Issue.findByIdAndDelete(req.params.id);
+        res.redirect('/'); // Redirect back to the AMPboard/dashboard page
+    } catch (err) {
+        console.error('Error deleting AMP:', err);
+        res.status(500).send('Error deleting AMP.');
+    }
+});
+
 // Serve uploaded files
 app.get('/uploads/:filename', (req, res) => {
     const filePath = path.join(__dirname, 'uploads', req.params.filename);
@@ -59,7 +69,6 @@ app.get('/', async (req, res) => {
     }
 });
 
-
 // Route to create a new CAR entry and redirect to the form
 app.get('/create', async (req, res) => {
     try {
@@ -79,6 +88,13 @@ app.get('/create', async (req, res) => {
                 issue_creator: 'To Be Determined',
                 car_system_tracker: 'To Be Determined',
             },
+            d2: {},
+            d3: {},
+            d4: {},
+            d5: {},
+            d6: {},
+            d7: {},
+            d8: {}
         });
 
         const savedCar = await newCar.save();
@@ -122,6 +138,13 @@ app.post('/submit-d1', async (req, res) => {
                 car_system_tracker: req.body.team_members.car_system_tracker,
             },
             status: 'Open',
+            d2: {},
+            d3: {},
+            d4: {},
+            d5: {},
+            d6: {},
+            d7: {},
+            d8: {}
         });
 
         await newCar.save();
@@ -132,20 +155,49 @@ app.post('/submit-d1', async (req, res) => {
     }
 });
 
-// Route to submit D2 section
+// Route to save D1 section without creating a new CAR
+app.post('/save-d1/:id', async (req, res) => {
+    try {
+        const car = await Issue.findById(req.params.id);
+        if (!car) {
+            return res.status(404).send('CAR not found');
+        }
+
+        car.d1 = {
+            root_cause_champion: req.body.team_members.root_cause_champion || car.d1.root_cause_champion,
+            hod_responsible: req.body.team_members.hod_responsible || car.d1.hod_responsible,
+            support_role: req.body.team_members.support_role || car.d1.support_role,
+            issue_creator: req.body.team_members.issue_creator || car.d1.issue_creator,
+            car_system_tracker: req.body.team_members.car_system_tracker || car.d1.car_system_tracker,
+        };
+
+        await car.save();
+        res.redirect(`/create/${car._id}`);
+    } catch (err) {
+        console.error('Error saving D1 data:', err);
+        res.status(500).send('An error occurred while saving the D1 data.');
+    }
+});
+
 app.post('/submit-d2/:id', async (req, res) => {
     try {
+        console.log("Request Body:", req.body); // Log the incoming request body
+        console.log("Incoming data for D2:", req.body);
         const car = await Issue.findById(req.params.id);
 
         if (!car) {
             return res.status(404).send('CAR not found');
         }
 
+        if (!req.body.d2) {
+            console.log("No data found in req.body.d2");
+            return res.status(400).send('No data provided for D2.');
+        }
+
         // Update the D2 fields with the data from the form
         car.d2 = {
             vehicle_model: req.body.d2.vehicle_model,
-            process: req.body.d2.process,
-            function_group: req.body.d2.function_group,
+            issue_title: req.body.d2.issue_title,
             part_name: req.body.d2.part_name,
             part_number: req.body.d2.part_number,
             defect: req.body.d2.defect,
@@ -157,9 +209,7 @@ app.post('/submit-d2/:id', async (req, res) => {
             additional_where: req.body.d2.additional_where,
         };
 
-        await car.save(); // Save the changes to the database
-
-        // Redirect to the same CAR issue page for further editing or viewing
+        await car.save();
         res.redirect(`/create/${car._id}`);
     } catch (err) {
         console.error('Error saving D2 data:', err);

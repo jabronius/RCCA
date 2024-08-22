@@ -47,7 +47,7 @@
                 <th>AMP#</th> <!-- Changed CAR# to AMP# -->
                 <th>Status</th>
                 <th>Champion</th>
-                <th>Defect</th>
+                <th>Issue</th>
                 <th>Date Created</th>
                 <th>Vehicle Model</th>
             </tr>
@@ -55,10 +55,15 @@
         <tbody>
             <% openCars.forEach(car => { %>
                 <tr>
-                    <td><a href="/create/<%= car._id %>">AMP#: <%= car.carNumber %></a></td> <!-- Changed CAR# to AMP# -->
+                    <td>
+                        <a href="/create/<%= car._id %>">AMP#: <%= car.carNumber %></a> 
+                        <form action="/delete/<%= car._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Delete this AMP?');">
+                            <button type="submit" style="background:none;border:none;color:red;cursor:pointer;">x</button>
+                        </form>
+                    </td>
                     <td>Status: <%= car.status %></td>
                     <td>Champion: <%= car.d1.root_cause_champion %></td>
-                    <td>Defect: N/A</td>
+                    <td>Issue Title: <%= car.d2 ? car.d2.issue_title : 'N/A' %></td>
                     <td>Date Created: <%= car.createdAt.toDateString() %></td>
                     <td>Vehicle Model: <%= car.d2 ? car.d2.vehicle_model : 'N/A' %></td>
                 </tr>
