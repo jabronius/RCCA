@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>AMPboard</title> <!-- Changed title -->
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -38,13 +38,13 @@
 </head>
 <body>
     <div class="header">
-        <a href="/create">Create Issue - New CAR Entry</a>
+        <a href="/create">Create Issue - New AMP Entry</a> <!-- Changed link text -->
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>CAR#</th>
+                <th>AMP#</th> <!-- Changed CAR# to AMP# -->
                 <th>Status</th>
                 <th>Champion</th>
                 <th>Defect</th>
@@ -55,10 +55,10 @@
         <tbody>
             <% openCars.forEach(car => { %>
                 <tr>
-                    <td><a href="/create/<%= car._id %>">CAR#: <%= car.carNumber %></a></td>
+                    <td><a href="/create/<%= car._id %>">AMP#: <%= car.carNumber %></a></td> <!-- Changed CAR# to AMP# -->
                     <td>Status: <%= car.status %></td>
                     <td>Champion: <%= car.d1.root_cause_champion %></td>
-                    <td>Defect: <%= car.d2 ? car.d2.defect : 'N/A' %></td>
+                    <td>Defect: N/A</td>
                     <td>Date Created: <%= car.createdAt.toDateString() %></td>
                     <td>Vehicle Model: <%= car.d2 ? car.d2.vehicle_model : 'N/A' %></td>
                 </tr>

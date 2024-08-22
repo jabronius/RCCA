@@ -23,6 +23,8 @@ const issueSchema = new mongoose.Schema({
         in_vehicle: { type: String, required: false },
         side_of_vehicle: { type: String, required: false },
         additional_where: { type: String, required: false },
+        where_process: { type: String, required: false }, // New field
+        where_commodity: { type: String, required: false }, // New field
     },
     d3: {
         recall_parts_notes: { type: String },
@@ -90,6 +92,8 @@ const issueSchema = new mongoose.Schema({
         corrective_action: { type: String },
         second_corrective_action: { type: String },
         third_corrective_action: { type: String },
+        ecr: { type: String, required: false },
+        eo: { type: String, required: false },
     },
     d6: {
         trial_description: { type: String },
