@@ -1,5 +1,3 @@
-// models/Issue.js
-
 const mongoose = require('mongoose');
 
 const issueSchema = new mongoose.Schema({
@@ -12,9 +10,9 @@ const issueSchema = new mongoose.Schema({
     },
     d2: {
         vehicle_model: { type: String, required: false },
-        issue_title: { type: String, required: false },
-        kpi: { type: String, required: false }, // Updated field for KPI
-        function_group: { type: String, required: false }, // Updated field for Function Group
+        issue_title: { type: String, required: true }, // Marked as required, assuming it's crucial
+        kpi: { type: String, required: false },
+        function_group: { type: String, required: false },
         part_name: { type: String, required: false },
         part_number: { type: String, required: false },
         defect: { type: String, required: false },
@@ -122,8 +120,8 @@ const issueSchema = new mongoose.Schema({
         previous_line_call_sheets: { type: Object },
     },
     status: { type: String, default: 'Open' },
-    carNumber: { type: String },
-    createdAt: { type: Date, default: Date.now }
-});
+    carNumber: { type: String, index: true }, // Added index for faster queries
+    createdAt: { type: Date, default: Date.now },
+}, { timestamps: true }); // Added timestamps for automatic management of createdAt and updatedAt fields
 
 module.exports = mongoose.model('Issue', issueSchema);
