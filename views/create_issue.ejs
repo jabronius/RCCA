@@ -74,7 +74,7 @@
                 padding: 10px;
                 margin-bottom: 20px;
                 text-align: center;
-                font-size: 12px;
+                font-size: 16px;
                 border-radius: 5px;
                 font-weight: bold;
             }
@@ -162,19 +162,18 @@
                 <div id="additional_members"></div>
                 <button type="button" onclick="addMember()">Add Another Member (Optional)</button>
 
-                        <!-- Save Button -->
-                <button type="submit" formaction="/save-d1/<%= car ? car._id : '' %>">Save</button>
-
-
                 <!-- Submit Button -->
-                <button type="submit">Submit Team Members</button>
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
             </form>
         </div>
 
         <!-- D2 Section: Problem Description -->
         <div id="d2" class="section <%= car && car.d2 ? 'active' : '' %>">
             <h2>D2: Problem description</h2>
-            <form action="<%= car ? '/submit-d2/' + car._id : '#' %>" method="POST" enctype="multipart/form-data">
+            <form id="d2-form" action="/submit-d2/<%= car ? car._id : '' %>" method="POST" enctype="multipart/form-data">
+
                 <!-- Vehicle Model -->
                 <div>
                     <label for="vehicle_model">Vehicle Model:</label>
@@ -191,6 +190,41 @@
                     <label for="issue_title">Issue Title:</label>
                     <input type="text" id="issue_title" name="d2[issue_title]" value="<%= car && car.d2 ? car.d2.issue_title : '' %>" required>
                 </div>
+                <!-- KPI -->
+                <div>
+                    <label for="kpi">KPI:</label>
+                    <select id="kpi" name="d2[kpi]" required>
+                        <option value="FTTQ" <%= car && car.d2 && car.d2.kpi === 'FTTQ' ? 'selected' : '' %>>FTTQ</option>
+                        <option value="Line Call" <%= car && car.d2 && car.d2.kpi === 'Line Call' ? 'selected' : '' %>>Line Call</option>
+                        <option value="Dealer Claim" <%= car && car.d2 && car.d2.kpi === 'Dealer Claim' ? 'selected' : '' %>>Dealer Claim</option>
+                        <option value="3M" <%= car && car.d2 && car.d2.kpi === '3M' ? 'selected' : '' %>>3M</option>
+                        <option value="VPC" <%= car && car.d2 && car.d2.kpi === 'VPC' ? 'selected' : '' %>>VPC</option>
+                        <option value="Other" <%= car && car.d2 && car.d2.kpi === 'Other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                </div>
+
+                <!-- Function Group -->
+                <div>
+                    <label for="function_group">Function Group:</label>
+                    <select id="function_group" name="d2[function_group]" required>
+                        <option value="Interior" <%= car && car.d2 && car.d2.function_group === 'Interior' ? 'selected' : '' %>>Interior</option>
+                        <option value="Exterior" <%= car && car.d2 && car.d2.function_group === 'Exterior' ? 'selected' : '' %>>Exterior</option>
+                        <option value="Electrical" <%= car && car.d2 && car.d2.function_group === 'Electrical' ? 'selected' : '' %>>Electrical</option>
+                        <option value="Chassis" <%= car && car.d2 && car.d2.function_group === 'Chassis' ? 'selected' : '' %>>Chassis</option>
+                        <option value="Body" <%= car && car.d2 && car.d2.function_group === 'Body' ? 'selected' : '' %>>Body</option>
+                        <option value="Weld" <%= car && car.d2 && car.d2.function_group === 'Weld' ? 'selected' : '' %>>Weld</option>
+                        <option value="Paint" <%= car && car.d2 && car.d2.function_group === 'Paint' ? 'selected' : '' %>>Paint</option>
+                        <option value="Other" <%= car && car.d2 && car.d2.function_group === 'Other' ? 'selected' : '' %>>Other</option>
+                        <option value="N/A" <%= car && car.d2 && car.d2.function_group === 'N/A' ? 'selected' : '' %>>N/A</option>
+                    </select>
+                </div>
+
+                <!-- Where Process -->
+                <div>
+                    <label for="where_process">Where (Process):</label>
+                    <input type="text" id="where_process" name="d2[where_process]" value="<%= car && car.d2 ? car.d2.where_process : '' %>">
+                </div>
+
                 <!-- Part Name -->
                 <div>
                     <label for="part_name">Part Name:</label>
@@ -270,9 +304,13 @@
                     <input type="text" id="additional_where" name="d2[additional_where]" value="<%= car && car.d2 ? car.d2.additional_where : '' %>">
                 </div>
 
-                <button type="submit">Submit Problem Description</button>
+                <!-- Submit Button -->
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
             </form>
         </div>
+
 
         <!-- D3 Section: Containment Action -->
         <div id="d3" class="section <%= car && car.d3 ? 'active' : '' %>">
@@ -380,8 +418,11 @@
                         <label for="results">Results Section:</label>
                         <textarea id="results" name="d3[results]" rows="4" placeholder="Specific info"><%= car && car.d3 ? car.d3.results : '' %></textarea>
                     </div>
-
-                    <button type="submit">Submit Containment Action</button>
+                
+                <!-- Submit Button -->
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
                 </div>
 
     <!-- D4 Section: Root Cause Analysis -->
@@ -478,23 +519,23 @@
                 </tr>
                 <tr>
                     <td>Why 1</td>
-                    <td><input type="text" name="d4[why1]" style="width: 100%;" value="<%= car && car.d4 ? car.d4.why1 : '' %>"></td>
+                    <td><input type="text" name="d4[why1]" style="width: 200%;" value="<%= car && car.d4 ? car.d4.why1 : '' %>"></td>
                 </tr>
                 <tr>
                     <td>Why 2</td>
-                    <td><input type="text" name="d4[why2]" style="width: 100%;" value="<%= car && car.d4 ? car.d4.why2 : '' %>"></td>
+                    <td><input type="text" name="d4[why2]" style="width: 200%;" value="<%= car && car.d4 ? car.d4.why2 : '' %>"></td>
                 </tr>
                 <tr>
                     <td>Why 3</td>
-                    <td><input type="text" name="d4[why3]" style="width: 100%;" value="<%= car && car.d4 ? car.d4.why3 : '' %>"></td>
+                    <td><input type="text" name="d4[why3]" style="width: 200%;" value="<%= car && car.d4 ? car.d4.why3 : '' %>"></td>
                 </tr>
                 <tr>
                     <td>Why 4</td>
-                    <td><input type="text" name="d4[why4]" style="width: 100%;" value="<%= car && car.d4 ? car.d4.why4 : '' %>"></td>
+                    <td><input type="text" name="d4[why4]" style="width: 200%;" value="<%= car && car.d4 ? car.d4.why4 : '' %>"></td>
                 </tr>
                 <tr>
                     <td>Why 5</td>
-                    <td><input type="text" name="d4[why5]" style="width: 100%;" value="<%= car && car.d4 ? car.d4.why5 : '' %>"></td>
+                    <td><input type="text" name="d4[why5]" style="width: 200%;" value="<%= car && car.d4 ? car.d4.why5 : '' %>"></td>
                 </tr>
             </table>
 
@@ -536,7 +577,10 @@
                 </select>
             </div>
 
-            <button type="submit">Submit Root Cause Analysis</button>
+                <!-- Submit Button -->
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
         </form>
     </div>
 
@@ -632,7 +676,10 @@
                 <input type="text" id="d5_eo" name="d5[eo]" value="<%= car && car.d5 ? car.d5.eo : '' %>">
             </div>
 
-            <button type="submit">Submit Corrective Action</button>
+                <!-- Submit Button -->
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
         </form>
     </div>
 
@@ -709,7 +756,10 @@
                 <input type="date" id="d6_production_instructions_trial_date" name="d6[production_instructions_trial_date]" value="<%= car && car.d6 ? car.d6.production_instructions_trial_date : '' %>">
             </div>
 
-            <button type="submit">Submit Corrective Action Implementation</button>
+                <!-- Submit Button -->
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
         </form>
     </div>
 
@@ -747,7 +797,10 @@
                 <textarea name="d7[preventive_actions]" id="d7_preventive_actions" rows="3" placeholder="Describe the preventive actions taken"><%= car && car.d7 ? car.d7.preventive_actions : '' %></textarea>
             </div>
 
-            <button type="submit">Submit Preventive Actions</button>
+                <!-- Submit Button -->
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
         </form>
     </div>
 
@@ -788,7 +841,10 @@
                 <input type="file" id="d8_previous_line_call_sheets" name="d8_previous_line_call_sheets_upload" accept=".pdf,.doc,.docx,.xlsx,.xls">
             </div>
 
-            <button type="submit">Submit Lessons Learned</button>
+                <!-- Submit Button -->
+                <button type="submit" name="action" value="submit">Submit</button>
+                <!-- Save Button -->
+                <button type="submit" name="action" value="save">Save</button>
         </form>
     </div>
 

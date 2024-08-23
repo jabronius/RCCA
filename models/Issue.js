@@ -12,8 +12,9 @@ const issueSchema = new mongoose.Schema({
     },
     d2: {
         vehicle_model: { type: String, required: false },
-        process: { type: String, required: false },
-        function_group: { type: String, required: false },
+        issue_title: { type: String, required: false },
+        kpi: { type: String, required: false }, // Updated field for KPI
+        function_group: { type: String, required: false }, // Updated field for Function Group
         part_name: { type: String, required: false },
         part_number: { type: String, required: false },
         defect: { type: String, required: false },
@@ -23,8 +24,7 @@ const issueSchema = new mongoose.Schema({
         in_vehicle: { type: String, required: false },
         side_of_vehicle: { type: String, required: false },
         additional_where: { type: String, required: false },
-        where_process: { type: String, required: false }, // New field
-        where_commodity: { type: String, required: false }, // New field
+        where_process: { type: String, required: false },
     },
     d3: {
         recall_parts_notes: { type: String },
