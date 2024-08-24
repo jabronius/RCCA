@@ -7,24 +7,22 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const Issue = require('./models/Issue');
 const fs = require('fs');
-const helmet = require('helmet'); // Security middleware
+const helmet = require('helmet');
 
-const PORT = process.env.PORT || 3000;
-
+// Initialize Express app
 const app = express();
 
 // Use Helmet for security
 app.use(helmet());
 
-// Middleware to handle JSON data
-app.use(bodyParser.json());
-
-// Middleware to handle URL-encoded data
+// Middleware to handle JSON data and URL-encoded data
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
+// Session management
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
@@ -34,10 +32,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect('mongodb://localhost:27017/rcca', { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
-})
+mongoose.connect('mongodb://localhost:27017/rcca')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
@@ -130,37 +125,24 @@ app.get('/create/:id', async (req, res) => {
 // Universal route to save and submit any section
 app.post('/save-section/:id/:section', async (req, res) => {
     try {
-        const car = await Issue.findById(req.params.id);
-        if (!car) return res.status(404).send('CAR not found');
-
-        console.log('Full req.body:', req.body); // Log the entire request body
-
+        console.log('Request Body:', req.body); // Check entire body content
         const section = req.params.section;
-        console.log('Section data:', req.body[section]); // Log section-specific data
+        const updateData = {};
+        updateData[section] = req.body[section];
 
-        if (!req.body[section]) {
-            console.log('No data provided for', section);
-            return res.status(400).send(`No data provided for ${section}`);
-        }
+        console.log('Updating section:', section); 
+        console.log('Update data:', updateData);
 
-        car[section] = req.body[section];
-
-        await car.save();
-        console.log('Saved CAR:', car); // Log the saved CAR object
-        res.redirect(`/create/${car._id}/${section}`);
+        await Issue.findByIdAndUpdate(req.params.id, { $set: updateData }, { runValidators: true, new: true });
+        res.redirect(`/create/${req.params.id}`);
     } catch (err) {
         console.error('Error saving section:', err);
         res.status(500).send('Error saving data.');
     }
 });
 
-function getNextSection(currentSection) {
-    const sections = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8'];
-    const currentIndex = sections.indexOf(currentSection);
-    return currentIndex >= 0 && currentIndex < sections.length - 1 ? sections[currentIndex + 1] : null;
-}
+
 
 // Starting the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// http://localhost:3000
