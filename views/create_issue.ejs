@@ -98,6 +98,7 @@
         <button onclick="showSection('d8')">D8: Read Across & Lessons Learned</button>
     </div>
 
+
     <div class="content">
         <!-- Link to AMP board -->
         <a href="/" class="dashboard-link">Back to AMP board</a>
@@ -108,7 +109,8 @@
         </div>
 
         <!-- D1 Section: Formation of a Problem-Solving Team -->
-        <div id="d1" class="section <%= car && car.d1 ? 'active' : '' %>">
+        <div id="d1" class="section active"> <!-- Default active section -->
+
             <h2>D1: Formation of a Problem-Solving Team</h2>
             <form action="/save-section/<%= car._id %>/d1" method="POST">
                 <!-- Root Cause Champion -->
@@ -154,7 +156,7 @@
         </div>
 
         <!-- D2 Section: Problem Description -->
-        <div id="d2" class="section <%= car && car.d2 ? 'active' : '' %>">
+        <div id="d2" class="section">
             <h2>D2: Problem description</h2>
             <form action="/save-section/<%= car._id %>/d2" method="POST" enctype="multipart/form-data">
 
@@ -295,7 +297,7 @@
         </div>
 
         <!-- D3 Section: Containment Action -->
-        <div id="d3" class="section <%= car && car.d3 ? 'active' : '' %>">
+        <div id="d3" class="section">
             <h2>D3: Containment Action</h2>
             <form action="/save-section/<%= car._id %>/d3" method="POST" enctype="multipart/form-data">
                 <!-- Recall Parts that Recently Shipped -->
@@ -407,7 +409,7 @@
         </div>
 
         <!-- D4 Section: Root Cause Analysis -->
-        <div id="d4" class="section <%= car && car.d4 ? 'active' : '' %>">
+        <div id="d4" class="section">
             <h2>D4: Root Cause Analysis</h2>
             <form action="/save-section/<%= car._id %>/d4" method="POST" enctype="multipart/form-data">
 
@@ -564,7 +566,7 @@
         </div>
 
         <!-- D5 Section: Potential Corrective Action -->
-        <div id="d5" class="section <%= car && car.d5 ? 'active' : '' %>">
+        <div id="d5" class="section">
             <h2>D5: Potential Corrective Action</h2>
 
             <!-- Note -->
@@ -661,7 +663,7 @@
         </div>
 
         <!-- D6 Section: Implement Corrective Action -->
-        <div id="d6" class="section <%= car && car.d6 ? 'active' : '' %>">
+        <div id="d6" class="section">
             <h2>D6: Implement Corrective Action</h2>
             <form action="/save-section/<%= car._id %>/d6" method="POST" enctype="multipart/form-data">
                 <!-- Describe the Trial -->
@@ -739,7 +741,7 @@
         </div>
 
         <!-- D7 Section: Take Preventive Action -->
-        <div id="d7" class="section <%= car && car.d7 ? 'active' : '' %>">
+        <div id="d7" class="section">
             <h2>D7: Take Preventive Action</h2>
             <form action="/save-section/<%= car._id %>/d7" method="POST" enctype="multipart/form-data">
                 <!-- What documents need to be updated? -->
@@ -778,7 +780,7 @@
         </div>
 
         <!-- D8 Section: Read Across & Lessons Learned -->
-        <div id="d8" class="section <%= car && car.d8 ? 'active' : '' %>">
+        <div id="d8" class="section">
             <h2>D8: Read Across & Lessons Learned</h2>
             <form action="/save-section/<%= car._id %>/d8" method="POST" enctype="multipart/form-data">
                 <!-- Read Across & Lessons Learned -->
@@ -825,10 +827,15 @@
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
+                section.style.display = 'none'; // Hide the section
             });
     
             // Show the selected section
-            document.getElementById(sectionId).classList.add('active');
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+                selectedSection.style.display = 'block'; // Show the section
+            }
         }
     
         // Automatically show the first section by default
@@ -837,7 +844,6 @@
         });
     </script>
     
-
     <script>
         function previewPhotos() {
             const previewContainer = document.getElementById('photo-preview');
