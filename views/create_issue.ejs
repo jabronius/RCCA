@@ -5,84 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Quality Issue</title>
     <style>
-        body {
-            background-color: lightblue;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            display: flex;
+        body { 
+            background-color: lightblue; 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 14px; 
+            display: flex; 
         }
-        .sidebar {
-            width: 200px;
-            background-color: #333;
-            color: white;
-            padding: 15px;
-            overflow-y: auto;
-            height: 100vh;
-            position: fixed;
+        .sidebar { 
+            width: 200px; 
+            background-color: #333; 
+            color: white; 
+            padding: 15px; 
+            overflow-y: auto; 
+            height: 100vh; 
+            position: fixed; 
         }
-        .sidebar button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            background-color: #444;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            text-align: left;
+        .sidebar button { 
+            display: block; 
+            width: 100%; 
+            padding: 10px; 
+            margin: 5px 0; 
+            background-color: #444; 
+            border: none; 
+            color: white; 
+            cursor: pointer; 
+            font-size: 14px; 
+            text-align: left; 
         }
-        .sidebar button:hover {
-            background-color: #555;
+        .sidebar button:hover { 
+            background-color: #555; 
         }
-        .content {
-            margin-left: 220px;
-            padding: 20px;
-            width: 100%;
+        .content { 
+            margin-left: 220px; 
+            padding: 20px; 
+            width: 100%; 
         }
-        .section {
-            display: none;
+        .section { 
+            display: none; 
         }
-        .section.active {
-            display: block;
+        .section.active { 
+            display: block; 
         }
-        label {
-            display: block;
-            margin-top: 10px;
+        label { 
+            display: block; 
+            margin-top: 10px; 
         }
-        select, input, textarea {
-            margin-bottom: 10px;
-            padding: 5px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            width: 50%;
+        select, input, textarea { 
+            margin-bottom: 10px; 
+            padding: 5px; 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 14px; 
+            width: 50%; 
         }
-        button[type="submit"] {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
+        button[type="submit"] { 
+            padding: 10px 15px; 
+            background-color: #007BFF; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 14px; 
         }
-        button[type="submit"]:hover {
-            background-color: #0056b3;
+        button[type="submit"]:hover { 
+            background-color: #0056b3; 
         }
-        .universal-header {
-            background-color: #eee;
-            padding: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 16px;
-            border-radius: 5px;
-            font-weight: bold;
+        .universal-header { 
+            background-color: #eee; 
+            padding: 10px; 
+            margin-bottom: 20px; 
+            text-align: center; 
+            font-size: 16px; 
+            border-radius: 5px; 
+            font-weight: bold; 
         }
-        .dashboard-link {
-            font-size: 8pt;
-            text-align: center;
-            display: block;
-            margin-bottom: 20px;
+        .dashboard-link { 
+            font-size: 8pt; 
+            text-align: center; 
+            display: block; 
+            margin-bottom: 20px; 
         }
     </style>
 </head>
@@ -98,21 +98,16 @@
         <button onclick="showSection('d8')">D8: Read Across & Lessons Learned</button>
     </div>
 
-
     <div class="content">
-        <!-- Link to AMP board -->
         <a href="/" class="dashboard-link">Back to AMP board</a>
 
-        <!-- Universal Header -->
         <div class="universal-header">
             AMP#: <%= carNumber ? carNumber : 'Not yet created' %> | Issue Creator: <%= issueCreatorName %>
         </div>
 
-        <!-- D1 Section: Formation of a Problem-Solving Team -->
-        <div id="d1" class="section active"> <!-- Default active section -->
-
+        <div id="d1" class="section">
             <h2>D1: Formation of a Problem-Solving Team</h2>
-            <form action="/save-section/<%= car._id %>/d1" method="POST">
+            <form action="<%= car ? `/save-section/${car._id}/d1` : '/save-section/new/d1' %>" method="POST">
                 <!-- Root Cause Champion -->
                 <div>
                     <label for="root_cause_champion">Root Cause Champion:</label>
@@ -155,11 +150,9 @@
             </form>
         </div>
 
-        <!-- D2 Section: Problem Description -->
         <div id="d2" class="section">
             <h2>D2: Problem description</h2>
-            <form action="/save-section/<%= car._id %>/d2" method="POST" enctype="multipart/form-data">
-
+            <form action="<%= car ? `/save-section/${car._id}/d2` : '/save-section/new/d2' %>" method="POST" enctype="multipart/form-data">
                 <!-- Vehicle Model -->
                 <div>
                     <label for="vehicle_model">Vehicle Model:</label>
@@ -299,7 +292,7 @@
         <!-- D3 Section: Containment Action -->
         <div id="d3" class="section">
             <h2>D3: Containment Action</h2>
-            <form action="/save-section/<%= car._id %>/d3" method="POST" enctype="multipart/form-data">
+            <form action="<%= car ? `/save-section/${car._id}/d3` : '/save-section/new/d3' %>" method="POST" enctype="multipart/form-data">
                 <!-- Recall Parts that Recently Shipped -->
                 <div>
                     <label for="recall_parts_notes">Recall Parts that Recently Shipped:</label>
@@ -411,7 +404,7 @@
         <!-- D4 Section: Root Cause Analysis -->
         <div id="d4" class="section">
             <h2>D4: Root Cause Analysis</h2>
-            <form action="/save-section/<%= car._id %>/d4" method="POST" enctype="multipart/form-data">
+            <form action="<%= car ? `/save-section/${car._id}/d4` : '/save-section/new/d4' %>" method="POST" enctype="multipart/form-data">
 
                 <!-- Process Confirmation -->
                 <h3>Process Confirmation</h3>
@@ -572,7 +565,7 @@
             <!-- Note -->
             <p style="font-size: 10px;">Will the Corrective Action(s) solve the problem for the customer?</p>
 
-            <form action="/save-section/<%= car._id %>/d5" method="POST" enctype="multipart/form-data">
+            <form action="<%= car ? `/save-section/${car._id}/d5` : '/save-section/new/d5' %>" method="POST" enctype="multipart/form-data">
                 <!-- Who is the customer? -->
                 <div>
                     <label for="d5_customer">Who is the customer?:</label>
@@ -665,7 +658,7 @@
         <!-- D6 Section: Implement Corrective Action -->
         <div id="d6" class="section">
             <h2>D6: Implement Corrective Action</h2>
-            <form action="/save-section/<%= car._id %>/d6" method="POST" enctype="multipart/form-data">
+            <form action="<%= car ? `/save-section/${car._id}/d6` : '/save-section/new/d6' %>" method="POST" enctype="multipart/form-data">
                 <!-- Describe the Trial -->
                 <div>
                     <label for="d6_trial_description">Describe the Trial:</label>
@@ -743,7 +736,7 @@
         <!-- D7 Section: Take Preventive Action -->
         <div id="d7" class="section">
             <h2>D7: Take Preventive Action</h2>
-            <form action="/save-section/<%= car._id %>/d7" method="POST" enctype="multipart/form-data">
+            <form action="<%= car ? `/save-section/${car._id}/d7` : '/save-section/new/d7' %>" method="POST" enctype="multipart/form-data">
                 <!-- What documents need to be updated? -->
                 <div>
                     <label for="d7_documents_update">What documents need to be updated?:</label>
@@ -782,7 +775,7 @@
         <!-- D8 Section: Read Across & Lessons Learned -->
         <div id="d8" class="section">
             <h2>D8: Read Across & Lessons Learned</h2>
-            <form action="/save-section/<%= car._id %>/d8" method="POST" enctype="multipart/form-data">
+            <form action="<%= car ? `/save-section/${car._id}/d8` : '/save-section/new/d8' %>" method="POST" enctype="multipart/form-data">
                 <!-- Read Across & Lessons Learned -->
                 <div>
                     <label for="d8_read_across">Read Across & Lessons Learned:</label>
@@ -824,17 +817,23 @@
 
     <script>
         function showSection(sectionId) {
+            console.log(`Attempting to show section: ${sectionId}`);
+            
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
-                section.style.display = 'none'; // Hide the section
+                section.style.display = 'none';
+                console.log(`Hiding section: ${section.id}`);
             });
     
             // Show the selected section
             const selectedSection = document.getElementById(sectionId);
             if (selectedSection) {
                 selectedSection.classList.add('active');
-                selectedSection.style.display = 'block'; // Show the section
+                selectedSection.style.display = 'block';
+                console.log(`Showing section: ${sectionId}`);
+            } else {
+                console.error(`Section with ID ${sectionId} not found.`);
             }
         }
     
@@ -914,4 +913,3 @@
     </script>
 </body>
 </html>
-

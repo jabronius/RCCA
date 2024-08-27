@@ -108,19 +108,17 @@ app.get('/create', async (req, res) => {
     }
 });
 
-// Route to render an existing CAR issue based on its ID (for editing or viewing)
-app.get('/create/:id', async (req, res) => {
+// Route to render the 'Create New Quality Issue' page (starting with D1)
+app.get('/create/:id?', async (req, res) => {
     try {
-        const car = await Issue.findById(req.params.id);
-        if (!car) {
-            return res.status(404).send('CAR not found');
-        }
-        res.render('create_issue', { car, carNumber: car.carNumber, issueCreatorName: car.d1.issue_creator });
+        const car = req.params.id ? await Issue.findById(req.params.id) : null;
+        res.render('create_issue', { car, carNumber: car ? car.carNumber : null, issueCreatorName: car ? car.d1.issue_creator : null });
     } catch (err) {
         console.error("Error fetching CAR:", err);
         res.status(500).send("Error retrieving CAR data.");
     }
 });
+
 
 // Universal route to save and submit any section
 app.post('/save-section/:id/:section', async (req, res) => {
@@ -141,6 +139,29 @@ app.post('/save-section/:id/:section', async (req, res) => {
     }
 });
 
+app.post('/save-section/new/:section', async (req, res) => {
+    try {
+        // Create a new CAR entry
+        const newCar = new Issue({
+            d1: req.body.d1,
+            d2: req.body.d2,
+            d3: req.body.d3,
+            d4: req.body.d4,
+            d5: req.body.d5,
+            d6: req.body.d6,
+            d7: req.body.d7,
+            d8: req.body.d8,
+            status: 'Open',
+            carNumber: '000001' // Example value, adjust as necessary
+        });
+
+        const savedCar = await newCar.save();
+        res.redirect(`/create/${savedCar._id}`);
+    } catch (err) {
+        console.error('Error saving new CAR:', err);
+        res.status(500).send('Error saving new CAR.');
+    }
+});
 
 
 // Starting the server
