@@ -10,41 +10,11 @@
             font-family: 'Montserrat', sans-serif; 
             font-size: 14px; 
             display: flex; 
-        }
-        .sidebar { 
-            width: 200px; 
-            background-color: #333; 
-            color: white; 
-            padding: 15px; 
-            overflow-y: auto; 
-            height: 100vh; 
-            position: fixed; 
-        }
-        .sidebar button { 
-            display: block; 
-            width: 100%; 
-            padding: 10px; 
-            margin: 5px 0; 
-            background-color: #444; 
-            border: none; 
-            color: white; 
-            cursor: pointer; 
-            font-size: 14px; 
-            text-align: left; 
-        }
-        .sidebar button:hover { 
-            background-color: #555; 
+            flex-direction: column; /* Change to column for all sections to stack vertically */
         }
         .content { 
-            margin-left: 220px; 
             padding: 20px; 
             width: 100%; 
-        }
-        .section { 
-            display: none; 
-        }
-        .section.active { 
-            display: block; 
         }
         label { 
             display: block; 
@@ -84,19 +54,12 @@
             display: block; 
             margin-bottom: 20px; 
         }
+        .section {
+            margin-bottom: 30px; /* Add some space between sections */
+        }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <button onclick="showSection('d1')">D1: Formation of a Problem-Solving Team</button>
-        <button onclick="showSection('d2')">D2: Problem description</button>
-        <button onclick="showSection('d3')">D3: Containment action</button>
-        <button onclick="showSection('d4')">D4: Root cause analysis</button>
-        <button onclick="showSection('d5')">D5: Potential corrective action</button>
-        <button onclick="showSection('d6')">D6: Implement corrective action</button>
-        <button onclick="showSection('d7')">D7: Take preventive action</button>
-        <button onclick="showSection('d8')">D8: Read Across & Lessons Learned</button>
-    </div>
 
     <div class="content">
         <a href="/" class="dashboard-link">Back to AMP board</a>
@@ -815,101 +778,63 @@
         </div>
     </div>
 
-    <script>
-        function showSection(sectionId) {
-            console.log(`Attempting to show section: ${sectionId}`);
-            
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-                console.log(`Hiding section: ${section.id}`);
-            });
-    
-            // Show the selected section
-            const selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.classList.add('active');
-                selectedSection.style.display = 'block';
-                console.log(`Showing section: ${sectionId}`);
-            } else {
-                console.error(`Section with ID ${sectionId} not found.`);
-            }
+   <!-- You can remove the JavaScript for handling sections since all sections are now visible -->
+   <script>
+    function previewPhotos() {
+        const previewContainer = document.getElementById('photo-preview');
+        const files = document.getElementById('photos').files;
+        previewContainer.innerHTML = ''; // Clear any previous previews
+
+        if (files.length > 0) {
+            const firstFile = files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '150px';
+                img.style.height = '150px';
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(firstFile);
         }
-    
-        // Automatically show the first section by default
-        document.addEventListener("DOMContentLoaded", function() {
-            showSection('d1'); // Show D1 by default
-        });
-    </script>
-    
-    <script>
-        function previewPhotos() {
-            const previewContainer = document.getElementById('photo-preview');
-            const files = document.getElementById('photos').files;
-            previewContainer.innerHTML = ''; // Clear any previous previews
+    }
 
-            if (files.length > 0) {
-                const firstFile = files[0];
-                const reader = new FileReader();
+    function addInput(sectionId, name) {
+        const section = document.getElementById(sectionId);
+        const inputDiv = document.createElement('div');
+        inputDiv.innerHTML = `<input type="text" name="${name}" placeholder="Enter another cause">`;
+        section.appendChild(inputDiv);
+    }
 
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style.width = '150px';
-                    img.style.height = '150px';
-                    previewContainer.appendChild(img);
-                };
+    function addMember() {
+        const memberCount = document.querySelectorAll('#additional_members input').length + 1;
+        const div = document.createElement('div');
+        div.innerHTML = `<label for="member_${memberCount}">Additional Team Member ${memberCount}:</label>
+            <input type="text" id="member_${memberCount}" name="team_members[additional_member_${memberCount}]" placeholder="Enter first and last name">`;
+        document.getElementById('additional_members').appendChild(div);
+    }
 
-                reader.readAsDataURL(firstFile);
-            }
-        }
-
-        function addInput(sectionId, name) {
-            const section = document.getElementById(sectionId);
-            const inputDiv = document.createElement('div');
-            inputDiv.innerHTML = `<input type="text" name="${name}" placeholder="Enter another cause">`;
-            section.appendChild(inputDiv);
-        }
-
-        function addMember() {
-            const memberCount = document.querySelectorAll('#additional_members input').length + 1;
+    let vehicleCount = 1;
+    function addVehicle() {
+        if (vehicleCount < 5) { // Limit to 5 additional vehicles
+            vehicleCount++;
             const div = document.createElement('div');
-            div.innerHTML = `<label for="member_${memberCount}">Additional Team Member ${memberCount}:</label>
-                <input type="text" id="member_${memberCount}" name="team_members[additional_member_${memberCount}]" placeholder="Enter first and last name">`;
-            document.getElementById('additional_members').appendChild(div);
+            div.innerHTML = `<label for="additional_vehicle_${vehicleCount}">Additional Vehicle ${vehicleCount}:</label>
+                        <select name="d8[additional_vehicle_${vehicleCount}]" id="additional_vehicle_${vehicleCount}">
+                            <option value="NQ5a">NQ5a</option>
+                            <option value="MQ4a">MQ4a</option>
+                            <option value="ON">ON</option>
+                            <option value="MV1A">MV1A</option>
+                            <option value="CV1A">CV1A</option>
+                            <option value="Other">Other</option>
+                        </select>`;
+            document.getElementById('additional_vehicles').appendChild(div);
+        } else {
+            alert('You can only add up to 5 additional vehicles.');
         }
-
-        let vehicleCount = 1;
-        function addVehicle() {
-            if (vehicleCount < 5) { // Limit to 5 additional vehicles
-                vehicleCount++;
-                const div = document.createElement('div');
-                div.innerHTML = `<label for="additional_vehicle_${vehicleCount}">Additional Vehicle ${vehicleCount}:</label>
-                            <select name="d8[additional_vehicle_${vehicleCount}]" id="additional_vehicle_${vehicleCount}">
-                                <option value="NQ5a">NQ5a</option>
-                                <option value="MQ4a">MQ4a</option>
-                                <option value="ON">ON</option>
-                                <option value="MV1A">MV1A</option>
-                                <option value="CV1A">CV1A</option>
-                                <option value="Other">Other</option>
-                            </select>`;
-                document.getElementById('additional_vehicles').appendChild(div);
-            } else {
-                alert('You can only add up to 5 additional vehicles.');
-            }
-        }
-
-        function submitForm(action) {
-            const form = document.getElementById('d1-form');
-            if (action === 'save') {
-                form.action = '/save-d1/<%= car ? car._id : "" %>';
-            } else if (action === 'submit') {
-                form.action = '/submit-d1';
-            }
-
-            form.submit();
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
