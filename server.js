@@ -123,15 +123,19 @@ app.get('/create/:id?', async (req, res) => {
 // Universal route to save and submit any section
 app.post('/save-section/:id/:section', async (req, res) => {
     try {
-        console.log('Request Body:', req.body); // Check entire body content
-        const section = req.params.section;
+        console.log('Request Body:', req.body); // Debugging to see the full request body
+        
+        const section = req.params.section; // Get the section (e.g., d1, d2, etc.)
         const updateData = {};
-        updateData[section] = req.body[section];
-
-        console.log('Updating section:', section); 
+        updateData[section] = req.body[section]; // Prepare the update object
+        
+        console.log('Updating section:', section);
         console.log('Update data:', updateData);
-
+        
+        // Update the specific section in the database
         await Issue.findByIdAndUpdate(req.params.id, { $set: updateData }, { runValidators: true, new: true });
+        
+        // Redirect back to the form page after saving
         res.redirect(`/create/${req.params.id}`);
     } catch (err) {
         console.error('Error saving section:', err);
@@ -162,6 +166,7 @@ app.post('/save-section/new/:section', async (req, res) => {
         res.status(500).send('Error saving new CAR.');
     }
 });
+
 
 
 // Starting the server
